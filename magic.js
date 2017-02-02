@@ -1,5 +1,18 @@
 
-a.width = a.height = size = 800;
+d = document.createElement("canvas");
+e = d.getContext("2d")
+
+debug = document.createElement("div");
+
+b.appendChild(debug)
+b.appendChild(d)
+
+
+
+a.width = a.height = size = 512;
+
+d.width = d.height = size * 2;
+
 
 third = Math.PI / 3
 
@@ -27,77 +40,167 @@ dirs = [
 
 r = (v=1) => ~~(Math.random()*v)
 parts = [];
+dead = [];
 t = 0;
 
-s = () => 1 / Math.pow(2, r(3));
-
-con.log(s())
-con.log(s())
-con.log(s())
-con.log(s())
-con.log(s())
-
 create = (x, y, dir) => {
-	if (parts.length > size) return;
-	var p = {
-		dir: dir || r(3) * 2, // 0, 2 or 4
-		x: x || size / 2,
-		y: y || size / 2,
-		pos: 0,
-		s: 1 / Math.pow(2, r(3)),
-		colour: "rgba(" + [
-			0 + r(40),
-			50 + r(60),
-			100 + r(128)
-		] +",0.1)",
-		move: () => {
+	var p;
+	if (dead.length) {
+		p = dead.splice(-1)[0];
+		p.alive = true;
+		p.life++;
+		p.x = x;
+		p.y = y;
+		p.dir = dir;
+		p.setColour();
+		// con.log("dead.length", dead.length, p)
 
-			p.pos += 1/32; //p01!!
-			if (p.pos==1) {
-				p.pos = 0;
-				p.dir += r(2) * 2 - 1; // -1 or 1
-				p.dir = (p.dir + 6) % 6 // clamp to positives: 0 > 5
+	} else {
 
-				if (r(10) > 8) {
-					var newDir = r(2) * 4 - 2 // + -2 or 2
-					newDir = p.dir + newDir; // make sure clone has new direction
-					newDir = (newDir + 6) % 6 // clamp to positives: 0 > 5
-					create(p.x, p.y, newDir)
+
+		if (parts.length > size) return ;//con.warn("too many!");
+
+
+		p = {
+			alive: true,
+			life: 0,
+			dir: dir || r(3) * 2, // 0, 2 or 4
+			x: x || size,
+			y: y || size,
+			pos: 0,
+			s: 2 / Math.pow(2, r(2)),
+			setColour: () => {
+				p.colour = "rgba(" + [
+					p.life * 40 + r(40),
+					50 + r(60),
+					100 + r(128)
+				] +",0.1)";
+				// if (p.life > 1) con.log(p.colour);
+			},
+			move: () => {
+
+				if (p.alive == false) return ;//con.log("returning")
+
+				p.pos += 1/32; //p01!!
+				if (p.pos==1) {
+					p.pos = 0;
+					p.dir += r(2) * 2 - 1; // -1 or 1
+					p.dir = (p.dir + 6) % 6 // clamp to positives: 0 > 5
+
+					if (r(10) > 8) {
+						var newDir = r(2) * 4 - 2 // + -2 or 2
+						newDir = p.dir + newDir; // make sure clone has new direction
+						newDir = (newDir + 6) % 6 // clamp to positives: 0 > 5
+						
+						if (r(10) > 11) {
+							con.log("go mental")
+							for (i = 0; i++ < 10;) {
+								create(p.x, p.y, newDir)
+							}
+						} else {
+							create(p.x, p.y, newDir)
+						}
+
+
+					}
+
+				} else {
+
+					// p.x += dirs[p.dir][0] * p.s;
+					// p.y += dirs[p.dir][1] * p.s;
+
+					// con.log("p.pos", p.pos)
+					p.x += Math.sin(p.dir * third) * p.s;
+					p.y += Math.cos(p.dir * third) * p.s;
+
+					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
+						p.alive = false;
+						con.log('killing')
+						dead.push(p);
+					}
+
+
+					e.fillStyle = p.colour;
+					e.fillRect(p.x-1,p.y-1,2,2);
+
 				}
+				if (p.dir < 0) con.log("aargh", p.dir)
+				if (p.dir > 5) con.log("aargh", p.dir)
+
+
+
+				// if (Math.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
+
+
+
 
 			}
-			if (p.dir < 0) con.log("aargh", p.dir)
-			if (p.dir > 5) con.log("aargh", p.dir)
-
-			// con.log("p.pos", p.pos)
-			// p.x += Math.sin(p.dir * third) * p.s;
-			// p.y += Math.cos(p.dir * third) * p.s;
-			p.x += dirs[p.dir][0] * p.s;
-			p.y += dirs[p.dir][1] * p.s;
-
-			if (Math.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
-
-
-			c.fillStyle = p.colour;
-			c.fillRect(p.x-1,p.y-1,2,2);
-
-
 		}
+
+		p.setColour();
+
+		parts.push(p)
+
+
+
+
+
+
+
+
 	}
 
-	parts.push(p)
 }
 
+sc = 1;
+scaleTarget = 1;
+beginWarp = false;
 render = (t) => {
+
+	seconds = Math.floor(t / 1000) + 1;
+
+	warpMode = seconds % 3 == 0;
+
+	if (warpMode) {
+		if (beginWarp == false) { // warp has just begun! fuck yeah.
+			beginWarp = true;
+			scaleTarget = Math.random() * 1 + 0.7;
+		}
+	} else {
+		beginWarp = false;
+	}
+
+	sc -= (sc - scaleTarget) * 0.1;
+	scale = sc;
+
+	debug.innerHTML = [seconds, warpMode, scaleTarget];
+
 	// create();
-	c.fillStyle = "rgba(255,255,255,0.01)"
+
+	c.fillStyle = "rgba(255,255,255,0.1)"
 	c.fillRect(0,0,size, size)
+
+
+	c.save();
+	c.translate(size / 2, size / 2);
+	c.scale(scale, scale);
+	c.rotate(t * 0.0001);
+	c.translate(-size, -size)
+
+	// e.fillStyle = "rgba(255,255,255,0.01)"
+	// e.fillRect(0,0,size * 2, size*2)
+
+
+	// if (!warpMode) 
 	for(i=0;i<parts.length;i++) parts[i].move();
+
+	c.drawImage(d, 0, 0);
+	c.restore();
 	// if (t < 2000)
 	requestAnimationFrame(render)
 }
 
-while(parts.length < 32) create()
+while(parts.length < 64) create()
 
 
 render(0)
