@@ -71,10 +71,11 @@ create = (x, y, dir) => {
 			s: 2 / Math.pow(2, r(2)),
 			setColour: () => {
 				p.colour = "rgba(" + [
-					p.life * 40 + r(40),
+					p.life * 80 + r(40),
 					50 + r(60),
 					100 + r(128)
 				] +",0.1)";
+				p.colour = "hsla(" + ((p.life * 40 + r(40)) % 360) + "," + (40 + r(20)) + "%," + (40 + r(20)) + "%,0.1)";
 				// if (p.life > 1) con.log(p.colour);
 			},
 			move: () => {
@@ -83,6 +84,15 @@ create = (x, y, dir) => {
 
 				p.pos += 1/32; //p01!!
 				if (p.pos==1) {
+
+					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
+						p.alive = false;
+						con.log('killing')
+						dead.push(p);
+						return;
+					}
+
+
 					p.pos = 0;
 					p.dir += r(2) * 2 - 1; // -1 or 1
 					p.dir = (p.dir + 6) % 6 // clamp to positives: 0 > 5
@@ -91,7 +101,7 @@ create = (x, y, dir) => {
 						var newDir = r(2) * 4 - 2 // + -2 or 2
 						newDir = p.dir + newDir; // make sure clone has new direction
 						newDir = (newDir + 6) % 6 // clamp to positives: 0 > 5
-						
+
 						if (r(10) > 11) {
 							con.log("go mental")
 							for (i = 0; i++ < 10;) {
@@ -112,12 +122,6 @@ create = (x, y, dir) => {
 					// con.log("p.pos", p.pos)
 					p.x += Math.sin(p.dir * third) * p.s;
 					p.y += Math.cos(p.dir * third) * p.s;
-
-					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
-						p.alive = false;
-						con.log('killing')
-						dead.push(p);
-					}
 
 
 					e.fillStyle = p.colour;
@@ -187,11 +191,11 @@ render = (t) => {
 	c.rotate(t * 0.0001);
 	c.translate(-size, -size)
 
-	// e.fillStyle = "rgba(255,255,255,0.01)"
-	// e.fillRect(0,0,size * 2, size*2)
+	e.fillStyle = "rgba(255,255,255,0.02)"
+	e.fillRect(0,0,size * 2, size*2)
 
 
-	// if (!warpMode) 
+	// if (!warpMode)
 	for(i=0;i<parts.length;i++) parts[i].move();
 
 	c.drawImage(d, 0, 0);
