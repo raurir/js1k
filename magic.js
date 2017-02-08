@@ -14,22 +14,22 @@ a.width = a.height = size = 512;
 d.width = d.height = size * 2;
 
 
-third = Math.PI / 3
+var third = Math.PI / 3
 
-approxSin0 = 0; 			sin0 = Math.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, Math.round(approxSin0 * 10) === Math.round(sin0 * 10))
-approxCos0 = 1; 			cos0 = Math.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, Math.round(approxCos0 * 10) === Math.round(cos0 * 10))
-approxSin1 = 1/2+1/4+1/8;	sin1 = Math.sin(1 * third); con.log("approxSin1", approxSin1, "sin1", sin1, Math.round(approxSin1 * 10) === Math.round(sin1 * 10))
-approxCos1 = 1/2; 			cos1 = Math.cos(1 * third); con.log("approxCos1", approxCos1, "cos1", cos1, Math.round(approxCos1 * 10) === Math.round(cos1 * 10))
-approxSin2 = 1/2+1/4+1/8; 	sin2 = Math.sin(2 * third); con.log("approxSin2", approxSin2, "sin2", sin2, Math.round(approxSin2 * 10) === Math.round(sin2 * 10))
-approxCos2 = -1/2;			cos2 = Math.cos(2 * third); con.log("approxCos2", approxCos2, "cos2", cos2, Math.round(approxCos2 * 10) === Math.round(cos2 * 10))
-approxSin3 = 0; 			sin3 = Math.sin(3 * third); con.log("approxSin3", approxSin3, "sin3", sin3, Math.round(approxSin3 * 10) === Math.round(sin3 * 10))
-approxCos3 = -1; 			cos3 = Math.cos(3 * third); con.log("approxCos3", approxCos3, "cos3", cos3, Math.round(approxCos3 * 10) === Math.round(cos3 * 10))
-approxSin4 = -approxSin2;	sin4 = Math.sin(4 * third); con.log("approxSin4", approxSin4, "sin4", sin4, Math.round(approxSin4 * 10) === Math.round(sin4 * 10))
-approxCos4 = -1/2;			cos4 = Math.cos(4 * third); con.log("approxCos4", approxCos4, "cos4", cos4, Math.round(approxCos4 * 10) === Math.round(cos4 * 10))
-approxSin5 = -(1/2+1/4+1/8);sin5 = Math.sin(5 * third); con.log("approxSin5", approxSin5, "sin5", sin5, Math.round(approxSin5 * 10) === Math.round(sin5 * 10))
-approxCos5 = 1/2; 			cos5 = Math.cos(5 * third); con.log("approxCos5", approxCos5, "cos5", cos5, Math.round(approxCos5 * 10) === Math.round(cos5 * 10))
+var approxSin0 = 0; 			//sin0 = Math.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, Math.round(approxSin0 * 10) === Math.round(sin0 * 10))
+var approxCos0 = 1; 			//cos0 = Math.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, Math.round(approxCos0 * 10) === Math.round(cos0 * 10))
+var approxSin1 = 1/2+1/4+1/8;	//sin1 = Math.sin(1 * third); con.log("approxSin1", approxSin1, "sin1", sin1, Math.round(approxSin1 * 10) === Math.round(sin1 * 10))
+var approxCos1 = 1/2; 			//cos1 = Math.cos(1 * third); con.log("approxCos1", approxCos1, "cos1", cos1, Math.round(approxCos1 * 10) === Math.round(cos1 * 10))
+var approxSin2 = 1/2+1/4+1/8; 	//sin2 = Math.sin(2 * third); con.log("approxSin2", approxSin2, "sin2", sin2, Math.round(approxSin2 * 10) === Math.round(sin2 * 10))
+var approxCos2 = -1/2;			//cos2 = Math.cos(2 * third); con.log("approxCos2", approxCos2, "cos2", cos2, Math.round(approxCos2 * 10) === Math.round(cos2 * 10))
+var approxSin3 = 0; 			//sin3 = Math.sin(3 * third); con.log("approxSin3", approxSin3, "sin3", sin3, Math.round(approxSin3 * 10) === Math.round(sin3 * 10))
+var approxCos3 = -1; 			//cos3 = Math.cos(3 * third); con.log("approxCos3", approxCos3, "cos3", cos3, Math.round(approxCos3 * 10) === Math.round(cos3 * 10))
+var approxSin4 = -approxSin2;	//sin4 = Math.sin(4 * third); con.log("approxSin4", approxSin4, "sin4", sin4, Math.round(approxSin4 * 10) === Math.round(sin4 * 10))
+var approxCos4 = -1/2;			//cos4 = Math.cos(4 * third); con.log("approxCos4", approxCos4, "cos4", cos4, Math.round(approxCos4 * 10) === Math.round(cos4 * 10))
+var approxSin5 = -(1/2+1/4+1/8);//sin5 = Math.sin(5 * third); con.log("approxSin5", approxSin5, "sin5", sin5, Math.round(approxSin5 * 10) === Math.round(sin5 * 10))
+var approxCos5 = 1/2; 			//cos5 = Math.cos(5 * third); con.log("approxCos5", approxCos5, "cos5", cos5, Math.round(approxCos5 * 10) === Math.round(cos5 * 10))
 
-dirs = [
+var dirs = [
 	[approxSin0, approxCos0],
 	[approxSin1, approxCos1],
 	[approxSin2, approxCos2],
@@ -38,10 +38,10 @@ dirs = [
 	[approxSin5, approxCos5]
 ]
 
-r = (v=1) => ~~(Math.random()*v)
-parts = [];
-dead = [];
-t = 0;
+var r = (v=1) => ~~(Math.random()*v)
+var parts = [];
+var dead = [];
+var t = 0;
 
 create = (x, y, dir) => {
 	var p;
