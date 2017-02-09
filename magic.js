@@ -1,20 +1,18 @@
 
 d = document.createElement("canvas");
-e = d.getContext("2d")
+e = d.getContext("2d");
 
-debug = document.createElement("div");
+// debug = document.createElement("div");
 
-b.appendChild(debug)
-b.appendChild(d)
-
-
+// b.appendChild(debug)
+// b.appendChild(d);
 
 a.width = a.height = size = 512;
 
 d.width = d.height = size * 2;
 
 
-var third = Math.PI / 3
+var third = Math.PI / 3;
 
 var approxSin0 = 0; 			//sin0 = Math.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, Math.round(approxSin0 * 10) === Math.round(sin0 * 10))
 var approxCos0 = 1; 			//cos0 = Math.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, Math.round(approxCos0 * 10) === Math.round(cos0 * 10))
@@ -43,7 +41,7 @@ var parts = [];
 var dead = [];
 var t = 0;
 
-create = (x, y, dir) => {
+var create = (x, y, dir) => {
 	var p;
 	if (dead.length) {
 		p = dead.splice(-1)[0];
@@ -87,7 +85,7 @@ create = (x, y, dir) => {
 
 					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
 						p.alive = false;
-						con.log('killing')
+						// con.log('killing');
 						dead.push(p);
 						return;
 					}
@@ -103,10 +101,10 @@ create = (x, y, dir) => {
 						newDir = (newDir + 6) % 6 // clamp to positives: 0 > 5
 
 						if (r(10) > 11) {
-							con.log("go mental")
 							for (i = 0; i++ < 10;) {
 								create(p.x, p.y, newDir)
 							}
+							// con.log("go mental");
 						} else {
 							create(p.x, p.y, newDir)
 						}
@@ -128,10 +126,7 @@ create = (x, y, dir) => {
 					e.fillRect(p.x-1,p.y-1,2,2);
 
 				}
-				if (p.dir < 0) con.log("aargh", p.dir)
-				if (p.dir > 5) con.log("aargh", p.dir)
-
-
+				// if (p.dir < 0 || p.dir > 5) {con.log("aargh", p.dir);}
 
 				// if (Math.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
 
@@ -156,14 +151,12 @@ create = (x, y, dir) => {
 
 }
 
-sc = 1;
-scaleTarget = 1;
-beginWarp = false;
-render = (t) => {
+var sc = 1, scaleTarget = 1, beginWarp = false;
+var render = (t) => {
 
-	seconds = Math.floor(t / 1000) + 1;
+	var seconds = Math.floor(t / 1000) + 1;
 
-	warpMode = seconds % 3 == 0;
+	var warpMode = seconds % 3 == 0;
 
 	if (warpMode) {
 		if (beginWarp == false) { // warp has just begun! fuck yeah.
@@ -175,9 +168,8 @@ render = (t) => {
 	}
 
 	sc -= (sc - scaleTarget) * 0.1;
-	scale = sc;
 
-	debug.innerHTML = [seconds, warpMode, scaleTarget];
+	// debug.innerHTML = [seconds, warpMode, scaleTarget];
 
 	// create();
 
@@ -187,7 +179,7 @@ render = (t) => {
 
 	c.save();
 	c.translate(size / 2, size / 2);
-	c.scale(scale, scale);
+	c.scale(sc, sc);
 	c.rotate(t * 0.0001);
 	c.translate(-size, -size)
 
