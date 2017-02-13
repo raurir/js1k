@@ -1,7 +1,7 @@
 "use strict";
 
 var fs = require('fs');
-var regPack = require("./RegPack/regPack.js");
+var regPack = require("./regpackrauri/regPack.js");
 var cmdRegPack = regPack.cmdRegPack;
 var input = fs.readFileSync("magic.js", 'utf-8');
 var result = cmdRegPack(input, {});
