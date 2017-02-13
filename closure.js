@@ -20,7 +20,7 @@ ClosureCompiler.compile(
             console.log(result.length)
             console.log("===============")
             console.log(result)
-            fs.writeFile("magic-compressed.js", result);
+            fs.writeFile("magic-compressed-closure.js", result);
             // Write result to file
             // Display error (warnings from stderr)
         } else {
