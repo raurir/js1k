@@ -40,7 +40,7 @@ d.width = d.height = size * 2;
 // 	approxSin5, approxCos5
 // ]
 
-var r = function (v) { return ~~(M.random() * (v || 1)); };
+var r = function (v) { return ~~(M.random() * v || 1); };
 
 var create = function(x, y, dir){
 	var p;
@@ -92,15 +92,7 @@ var create = function(x, y, dir){
 						newDir = p.dir + newDir; // make sure clone has new direction
 						newDir = (newDir + 6) % 6; // clamp to positives: 0 > 5
 
-						if (r(5) > 11) {
-							for (i = 0; i++ < 10;) {
-								create(p.x, p.y, newDir)
-							}
-							// con.log("go mental");
-						} else {
-							create(p.x, p.y, newDir)
-						}
-
+						create(p.x, p.y, newDir)
 
 					}
 
