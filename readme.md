@@ -1,6 +1,7 @@
 until [PR #69](https://github.com/Siorki/RegPack/pull/69) is accepted...
 
-	git submodule add https://github.com/raurir/regpack regpackrauri
+	git submodule init
+	git submodule update
 
 use modern node:
 

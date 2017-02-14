@@ -1,0 +1,22 @@
+{
+  "name": "js1k-2017",
+  "version": "1.0.0",
+  "description": "until [PR #69](https://github.com/Siorki/RegPack/pull/69) is accepted...",
+  "main": "closure.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raurir/js1k-2017.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raurir/js1k-2017/issues"
+  },
+  "homepage": "https://github.com/raurir/js1k-2017#readme",
+  "devDependencies": {
+    "closurecompiler": "^1.6.1"
+  }
+}
