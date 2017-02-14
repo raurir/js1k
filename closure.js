@@ -19,7 +19,14 @@ ClosureCompiler.compile(
             // result = result.replace(/con\.log\(["\w\s,.]+\);?/g, "");
             console.log(result.length)
             console.log("===============")
+            console.log("es6ing fns")
+            result = result.replace(/function\(\)/g, "()=>");
+            result = result.replace(/function (\w)\(([a-z,]+)\)/g, ";$1=($2)=>");
+            result = result.replace("e(w)}for(", "e(w)};for("); // fucking bullshit
+            console.log(result.length);
+
             console.log(result)
+
             fs.writeFile("magic-compressed-closure.js", result);
             // Write result to file
             // Display error (warnings from stderr)

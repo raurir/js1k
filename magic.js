@@ -6,12 +6,17 @@ e = d.getContext("2d");
 
 // b.appendChild(debug)
 // b.appendChild(d);
-var size = a.width = a.height = 512;
+var size = a.width = a.height = 512, 
+	M = Math, 
+	sc = 1, 
+	scaleTarget = 1, 
+	beginWarp = false, 
+	third = M.PI / 3, 
+	parts = [], 
+	dead = [],
+	i;
+
 d.width = d.height = size * 2;
-
-var M = Math;
-
-var third = M.PI / 3;
 
 // var approxSin0 = 0; 			//sin0 = M.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, M.round(approxSin0 * 10) === M.round(sin0 * 10))
 // var approxCos0 = 1; 			//cos0 = M.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, M.round(approxCos0 * 10) === M.round(cos0 * 10))
@@ -35,12 +40,9 @@ var third = M.PI / 3;
 // 	approxSin5, approxCos5
 // ]
 
-var r = (v) => ~~(M.random()*(v?v:1));
-var parts = [];
-var dead = [];
-var i;
+var r = function (v) { return ~~(M.random() * (v || 1)); };
 
-var create = (x, y, dir) => {
+var create = function(x, y, dir){
 	var p;
 	if (dead.length) {
 		p = dead.splice(-1)[0];
@@ -131,10 +133,7 @@ var create = (x, y, dir) => {
 
 	}
 
-}
-
-var sc = 1, scaleTarget = 1, beginWarp = false;
-var render = (t) => {
+}, render = function(t){
 
 	if ((M.floor(t / 1000) + 1) % 3 == 0) {
 		if (beginWarp == false) { // warp has just begun! fuck yeah.
@@ -172,7 +171,7 @@ var render = (t) => {
 	c.restore();
 	// if (t < 2000)
 	requestAnimationFrame(render);
-}
+};
 
 while(parts.length < 64) create();
 
