@@ -9,21 +9,22 @@ e = d.getContext("2d");
 var size = a.width = a.height = 512;
 d.width = d.height = size * 2;
 
+var M = Math;
 
-var third = Math.PI / 3;
+var third = M.PI / 3;
 
-// var approxSin0 = 0; 			//sin0 = Math.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, Math.round(approxSin0 * 10) === Math.round(sin0 * 10))
-// var approxCos0 = 1; 			//cos0 = Math.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, Math.round(approxCos0 * 10) === Math.round(cos0 * 10))
-// var approxSin1 = 1/2+1/4+1/8;	//sin1 = Math.sin(1 * third); con.log("approxSin1", approxSin1, "sin1", sin1, Math.round(approxSin1 * 10) === Math.round(sin1 * 10))
-// var approxCos1 = 1/2; 			//cos1 = Math.cos(1 * third); con.log("approxCos1", approxCos1, "cos1", cos1, Math.round(approxCos1 * 10) === Math.round(cos1 * 10))
-// var approxSin2 = approxSin1; 	//sin2 = Math.sin(2 * third); con.log("approxSin2", approxSin2, "sin2", sin2, Math.round(approxSin2 * 10) === Math.round(sin2 * 10))
-// var approxCos2 = -approxCos1;			//cos2 = Math.cos(2 * third); con.log("approxCos2", approxCos2, "cos2", cos2, Math.round(approxCos2 * 10) === Math.round(cos2 * 10))
-// var approxSin3 = 0; 			//sin3 = Math.sin(3 * third); con.log("approxSin3", approxSin3, "sin3", sin3, Math.round(approxSin3 * 10) === Math.round(sin3 * 10))
-// var approxCos3 = -1; 			//cos3 = Math.cos(3 * third); con.log("approxCos3", approxCos3, "cos3", cos3, Math.round(approxCos3 * 10) === Math.round(cos3 * 10))
-// var approxSin4 = -approxSin2;	//sin4 = Math.sin(4 * third); con.log("approxSin4", approxSin4, "sin4", sin4, Math.round(approxSin4 * 10) === Math.round(sin4 * 10))
-// var approxCos4 = -approxCos1;			//cos4 = Math.cos(4 * third); con.log("approxCos4", approxCos4, "cos4", cos4, Math.round(approxCos4 * 10) === Math.round(cos4 * 10))
-// var approxSin5 = -(1/2+1/4+1/8);//sin5 = Math.sin(5 * third); con.log("approxSin5", approxSin5, "sin5", sin5, Math.round(approxSin5 * 10) === Math.round(sin5 * 10))
-// var approxCos5 = approxCos1; 			//cos5 = Math.cos(5 * third); con.log("approxCos5", approxCos5, "cos5", cos5, Math.round(approxCos5 * 10) === Math.round(cos5 * 10))
+// var approxSin0 = 0; 			//sin0 = M.sin(0 * third); con.log("approxSin0", approxSin0, "sin0", sin0, M.round(approxSin0 * 10) === M.round(sin0 * 10))
+// var approxCos0 = 1; 			//cos0 = M.cos(0 * third); con.log("approxCos0", approxCos0, "cos0", cos0, M.round(approxCos0 * 10) === M.round(cos0 * 10))
+// var approxSin1 = 1/2+1/4+1/8;	//sin1 = M.sin(1 * third); con.log("approxSin1", approxSin1, "sin1", sin1, M.round(approxSin1 * 10) === M.round(sin1 * 10))
+// var approxCos1 = 1/2; 			//cos1 = M.cos(1 * third); con.log("approxCos1", approxCos1, "cos1", cos1, M.round(approxCos1 * 10) === M.round(cos1 * 10))
+// var approxSin2 = approxSin1; 	//sin2 = M.sin(2 * third); con.log("approxSin2", approxSin2, "sin2", sin2, M.round(approxSin2 * 10) === M.round(sin2 * 10))
+// var approxCos2 = -approxCos1;			//cos2 = M.cos(2 * third); con.log("approxCos2", approxCos2, "cos2", cos2, M.round(approxCos2 * 10) === M.round(cos2 * 10))
+// var approxSin3 = 0; 			//sin3 = M.sin(3 * third); con.log("approxSin3", approxSin3, "sin3", sin3, M.round(approxSin3 * 10) === M.round(sin3 * 10))
+// var approxCos3 = -1; 			//cos3 = M.cos(3 * third); con.log("approxCos3", approxCos3, "cos3", cos3, M.round(approxCos3 * 10) === M.round(cos3 * 10))
+// var approxSin4 = -approxSin2;	//sin4 = M.sin(4 * third); con.log("approxSin4", approxSin4, "sin4", sin4, M.round(approxSin4 * 10) === M.round(sin4 * 10))
+// var approxCos4 = -approxCos1;			//cos4 = M.cos(4 * third); con.log("approxCos4", approxCos4, "cos4", cos4, M.round(approxCos4 * 10) === M.round(cos4 * 10))
+// var approxSin5 = -(1/2+1/4+1/8);//sin5 = M.sin(5 * third); con.log("approxSin5", approxSin5, "sin5", sin5, M.round(approxSin5 * 10) === M.round(sin5 * 10))
+// var approxCos5 = approxCos1; 			//cos5 = M.cos(5 * third); con.log("approxCos5", approxCos5, "cos5", cos5, M.round(approxCos5 * 10) === M.round(cos5 * 10))
 
 // var dirs = [
 // 	approxSin0, approxCos0,
@@ -34,28 +35,26 @@ var third = Math.PI / 3;
 // 	approxSin5, approxCos5
 // ]
 
-var r = (v) => ~~(Math.random()*(v?v:1));
+var r = (v) => ~~(M.random()*(v?v:1));
 var parts = [];
 var dead = [];
-var t = 0;
+var i;
 
 var create = (x, y, dir) => {
 	var p;
 	if (dead.length) {
 		p = dead.splice(-1)[0];
 		p.alive = true;
-		p.life++;
-		p.x = x;
-		p.y = y;
+		p.x = size;
+		p.y = size;
 		p.dir = dir;
+		p.pos = 0;
 		p.setColour();
 		// con.log("dead.length", dead.length, p)
 
 	} else {
 
-
 		if (parts.length > size) return ;//con.warn("too many!");
-
 
 		p = {
 			alive: true,
@@ -64,14 +63,11 @@ var create = (x, y, dir) => {
 			x: x || size,
 			y: y || size,
 			pos: 0,
-			s: 2 / Math.pow(2, r(2)),
+			s: 2 / M.pow(2, r(2)),
 			setColour: () => {
-				p.colour = "hsla(" + ((p.life * 40 +
-					r(40)) % 360) + "," +
-					(70 + r(20)) + "%," +
-					50 + "%,0.7)";
+				p.colour = "hsla(" + (p.life++ * 20) + ",70%,50%,0.7)";
 			},
-			move: () => {
+			m: () => {
 
 				if (p.alive == false) return ;//con.log("returning")
 
@@ -80,7 +76,6 @@ var create = (x, y, dir) => {
 
 					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
 						p.alive = false;
-						// con.log('killing');
 						dead.push(p);
 						return;
 					}
@@ -88,14 +83,14 @@ var create = (x, y, dir) => {
 
 					p.pos = 0;
 					p.dir += r(2) * 2 - 1; // -1 or 1
-					p.dir = (p.dir + 6) % 6 // clamp to positives: 0 > 5
+					p.dir = (p.dir + 6) % 6; // clamp to positives: 0 > 5
 
 					if (r(10) > 8) {
-						var newDir = r(2) * 4 - 2 // + -2 or 2
+						var newDir = r(2) * 4 - 2; // + -2 or 2
 						newDir = p.dir + newDir; // make sure clone has new direction
-						newDir = (newDir + 6) % 6 // clamp to positives: 0 > 5
+						newDir = (newDir + 6) % 6; // clamp to positives: 0 > 5
 
-						if (r(10) > 11) {
+						if (r(5) > 11) {
 							for (i = 0; i++ < 10;) {
 								create(p.x, p.y, newDir)
 							}
@@ -113,19 +108,17 @@ var create = (x, y, dir) => {
 					// p.y += dirs[p.dir][1] * p.s;
 
 					// con.log("p.pos", p.pos)
-					p.x += Math.sin(p.dir * third) * p.s;
-					p.y += Math.cos(p.dir * third) * p.s;
+					p.x += M.sin(p.dir * third) * p.s;
+					p.y += M.cos(p.dir * third) * p.s;
 
 
 					e.fillStyle = p.colour;
-					e.fillRect(p.x-1,p.y-1,2,2);
+					e.fillRect(p.x, p.y, p.s, p.s);
 
 				}
 				// if (p.dir < 0 || p.dir > 5) {con.log("aargh", p.dir);}
 
-				// if (Math.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
-
-
+				// if (M.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
 
 
 			}
@@ -133,13 +126,7 @@ var create = (x, y, dir) => {
 
 		p.setColour();
 
-		parts.push(p)
-
-
-
-
-
-
+		parts.push(p);
 
 
 	}
@@ -149,20 +136,16 @@ var create = (x, y, dir) => {
 var sc = 1, scaleTarget = 1, beginWarp = false;
 var render = (t) => {
 
-	var seconds = Math.floor(t / 1000) + 1;
-
-	var warpMode = seconds % 3 == 0;
-
-	if (warpMode) {
+	if ((M.floor(t / 1000) + 1) % 3 == 0) {
 		if (beginWarp == false) { // warp has just begun! fuck yeah.
 			beginWarp = true;
-			scaleTarget = Math.random() * 1 + 0.7;
+			scaleTarget = M.random() + .7;
 		}
 	} else {
 		beginWarp = false;
 	}
 
-	sc -= (sc - scaleTarget) * 0.1;
+	sc -= (sc - scaleTarget) / 9;
 
 	// debug.innerHTML = [seconds, warpMode, scaleTarget];
 
@@ -175,7 +158,7 @@ var render = (t) => {
 	c.save();
 	c.translate(size / 2, size / 2);
 	c.scale(sc, sc);
-	c.rotate(t * 0.0001);
+	c.rotate(t * 0.0001); // arbitrary divisor
 	c.translate(-size, -size)
 
 	e.fillStyle = "rgba(0,0,0,0.08)"
@@ -183,15 +166,15 @@ var render = (t) => {
 
 
 	// if (!warpMode)
-	for(i=0;i<parts.length;i++) parts[i].move();
+	for(i=0;i<parts.length;i++) parts[i].m();
 
 	c.drawImage(d, 0, 0);
 	c.restore();
 	// if (t < 2000)
-	requestAnimationFrame(render)
+	requestAnimationFrame(render);
 }
 
-while(parts.length < 64) create()
+while(parts.length < 64) create();
 
 
-render(0)
+render(0);
