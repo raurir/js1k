@@ -8,7 +8,7 @@ e = d.getContext("2d");
 // b.appendChild(debug)
 // b.appendChild(d);
 
-var size = a.width = a.height = 512, 
+var size = a.width = a.height = 1024, 
 	M = Math, 
 	sc = 1, 
 	scaleTarget = 1, 
@@ -74,7 +74,7 @@ var create = (parent, d, mod) => {
 			v: 1 / 32,// / mod, // / M.pow(2, r(4)),
 			// setColour: () => {
 				// p.colour = "hsla(" + (p.life++ * 20) + ",50%," + (20 + p.s * 20) +"%,0.7)";
-			colour: parent ? parent.colour : "hsla(" + parts.length * 80 + ",50%,50%,0.6)",
+			colour: parent ? parent.colour : "hsla(" + (150 + parts.length * 20) + ",50%,50%,0.4)",
 				// p.colour = parent ? parent.colour : "hsla(" + r(360) + ",50%,50%,1)";
 				// con.log(p.colour)
 			// },
@@ -150,7 +150,7 @@ var create = (parent, d, mod) => {
 					// e.fillStyle = p.colour;
 					// e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
 					// e.fillText(p.index, p.x, p.y + 10);
-					e.lineWidth = p.mod * 4;
+					e.lineWidth = p.mod * 6;
 					e.strokeStyle = p.colour;
 					e.beginPath();
 					e.moveTo(p.lx, p.ly);
@@ -179,7 +179,7 @@ var render = (t) =>{
 
 	// debug.innerHTML = parts.map(p=>Math.round(p.x)); 
 
-	if ((M.floor(t / 1000) + 1) % 3 == 0) {
+	if ((M.floor(t / 1000) + 1) % 5 == 0) {
 		if (!beginWarp) { // warp has just begun! fuck yeah.
 			beginWarp = true;
 			scaleTarget = M.random() + .7; // Math.sqrt(2) / 2 is min scale
@@ -188,7 +188,7 @@ var render = (t) =>{
 		beginWarp = false;
 	}
 
-	sc -= (sc - scaleTarget) / 9;
+	sc -= (sc - scaleTarget) / 20;
 
 	c.save();
 	c.translate(size / 2, size / 2);
@@ -208,6 +208,6 @@ var render = (t) =>{
 	requestAnimationFrame(render);
 };
 
-while(parts.length < 4) create();
+while(parts.length < 6) create();
 
 render(0);
