@@ -1,10 +1,10 @@
-b.addEventListener("click", e=> {debugger});
+// b.addEventListener("click", e=> {debugger});
 d = document.createElement("canvas");
 e = d.getContext("2d");
 
-debug = document.createElement("div");
-b.appendChild(debug)
-b.appendChild(d);
+// debug = document.createElement("div");
+// b.appendChild(debug)
+// b.appendChild(d);
 
 var size = a.width = a.height = 512, 
 	M = Math, 
@@ -23,7 +23,7 @@ var r = (v) => { return ~~(M.random() * v || 1); };
 var sixit = (v) => { return (v + 6) % 6 }; // clamp v between 0 and 6
 
 
-var create = (origin, x, y, dir, mod) => {
+var create = (o, x, y, d, mod) => {
 	var p;
 	x = x || size;
 	y = y || size;
@@ -36,10 +36,10 @@ var create = (origin, x, y, dir, mod) => {
 	
 	if (dead.length) {
 		p = dead.splice(-1)[0];
-		p.dir = dir;
-		p.x = x;
-		p.y = y;
-		p.origin = false;
+		p.d = d;
+		p.x = p.lx = x;
+		p.y = p.ly = y;
+		p.o = false;
 		p.pos = 0;
 		p.dying = 1;
 		p.alive = true;
@@ -57,15 +57,17 @@ var create = (origin, x, y, dir, mod) => {
 			alive: true,
 			x,
 			y,
+			lx: x,
+			ly: y,
 
-			origin,
+			o,
 			life: 0,
-			dir: dir || r(3) * 2, // 0, 2 or 4
+			d: d || r(3) * 2, // 0, 2 or 4
 			mod,
 			s: 2 / 1 * mod, //1 / M.pow(2, r(2)),
 			v: 1 / 32 / mod, // / M.pow(2, r(4)),
 			setColour: (p2) => {
-				p.colour = "hsla(" + (p.life++ * 20) + ",70%," + (40 + p.s * 20) +"%,0.7)";
+				p.colour = "hsla(" + (p.life++ * 20) + ",50%," + (20 + p.s * 20) +"%,0.7)";
 				// p.colour = "hsla(" + r(360) + ",70%,50%,1)";
 				// con.log(p.colour)
 			},
@@ -77,13 +79,13 @@ var create = (origin, x, y, dir, mod) => {
 			},
 			m: () => {
 
-				if (p.alive == false) {
-					e.fillStyle = p.colour;
-					e.fillText(p.index, p.index * 5, 10);
-					return;//con.log("returning")
-				}
+				// if (p.alive == false) {
+				// 	e.fillStyle = p.colour;
+				// 	e.fillText(p.index, p.index * 5, 10);
+				// 	return;//con.log("returning")
+				// }
 
-				p.dying *= p.origin ? 1 : 0.95;
+				p.dying *= p.o ? 1 : 0.95;
 
 				if (p.dying < 0.001) {
 					p.kill();
@@ -101,18 +103,18 @@ var create = (origin, x, y, dir, mod) => {
 
 					p.pos = 0;
 					// p.setColour();
-					p.dir += sixit(r(2) * 2 - 1); // add -1 or 1 to new dir.
+					p.d += sixit(r(2) * 2 - 1); // add -1 or 1 to new dir.
 
-					if (p.mod > 1/2 && r(10) > 2) { // duplicate at current position
+					if (p.mod > 1/4 && r(10) > 2) { // duplicate at current position
 						
 						// var newDir = r(2) * 4 - 2; // + -2 or 2
-						// newDir = p.dir + newDir; // make sure clone has new direction
+						// newDir = p.d + newDir; // make sure clone has new direction
 						// newDir = (newDir + 6) % 6; // clamp to positives: 0 > 5
 
 						for (var i = 0; i < 2; i++) {
 							
 							
-							var newDir = sixit(p.dir + r(2) * 4 - 2); // same as above 3 lines
+							var newDir = sixit(p.d + r(2) * 4 - 2); // same as above 3 lines
 							
 							// e.fillStyle = "red"
 							// e.fillRect(p.x - 10, p.y - 10, 20, 20);//p.s, p.s);
@@ -124,21 +126,29 @@ var create = (origin, x, y, dir, mod) => {
 
 				} else {
 
-					// p.x += dirs[p.dir][0] * p.s;
-					// p.y += dirs[p.dir][1] * p.s;
+					// p.x += dirs[p.d][0] * p.s;
+					// p.y += dirs[p.d][1] * p.s;
 
 					// con.log("p.pos", p.pos)
-					p.x += M.sin(p.dir * third) * p.s;
-					p.y += M.cos(p.dir * third) * p.s;
+					p.x += M.sin(p.d * third) * p.s;
+					p.y += M.cos(p.d * third) * p.s;
 
 					// p.colour = `rgba(255,255,255,1)`;//${ p.dying })`;
 
 					// e.fillStyle = "#000"
-					e.fillStyle = p.colour;
-					e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
+					// e.fillStyle = p.colour;
+					// e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
 					// e.fillText(p.index, p.x, p.y + 10);
+					e.lineWidth = p.mod * 4;
+					e.strokeStyle = p.colour;
+					e.beginPath();
+					e.moveTo(p.lx, p.ly);
+					e.lineTo(p.x, p.y);
+					e.stroke();
+					p.lx = p.x;
+					p.ly = p.y;
 				}
-				// if (p.dir < 0 || p.dir > 5) {con.log("aargh", p.dir);}
+				// if (p.d < 0 || p.d > 5) {con.log("aargh", p.d);}
 
 				// if (M.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
 
@@ -156,7 +166,7 @@ var create = (origin, x, y, dir, mod) => {
 };
 var render = (t) =>{
 
-	debug.innerHTML = parts.map(p=>Math.round(p.x)); 
+	// debug.innerHTML = parts.map(p=>Math.round(p.x)); 
 
 	if ((M.floor(t / 1000) + 1) % 3 == 0) {
 		if (beginWarp == false) { // warp has just begun! fuck yeah.
@@ -171,11 +181,11 @@ var render = (t) =>{
 
 	c.save();
 	c.translate(size / 2, size / 2);
-	// c.scale(sc, sc);
-	// c.rotate(t * 0.0001); // arbitrary divisor
+	c.scale(sc, sc);
+	c.rotate(t * 0.0001); // arbitrary divisor
 	c.translate(-size, -size);
 
-	e.fillStyle = "rgba(0,0,0,0.02)";
+	e.fillStyle = "rgba(0,0,0,0.03)";
 	e.fillRect(0, 0, size * 2, size * 2);
 
 

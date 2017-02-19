@@ -26,7 +26,7 @@ ClosureCompiler.compile(
             console.log("es6ing fns")
             result = result.replace(/function\(\)/g, "()=>");
             result = result.replace(/function (\w)\(([a-z,]+)\)/g, ";$1=($2)=>");
-            result = result.replace("e(w)}for(", "e(w)};for("); // fucking bullshit
+            result = result.replace("e(y)}for(", "e(y)};for("); // fucking bullshit
             console.log(result.length);
 
             console.log(result)
