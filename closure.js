@@ -1,8 +1,12 @@
+const input = process.argv[2], output = process.argv[3];
+console.log("closure", input, output);
+
+
 var ClosureCompiler = require("closurecompiler");
 var fs = require("fs");
 
 ClosureCompiler.compile(
-    ['magic.js'],
+    [`${input}.js`],
     {
         // Options in the API exclude the "--" prefix
         compilation_level: "ADVANCED_OPTIMIZATIONS",
@@ -27,7 +31,7 @@ ClosureCompiler.compile(
 
             console.log(result)
 
-            fs.writeFile("magic-compressed-closure.js", result);
+            fs.writeFile(`${output}.js`, result);
             // Write result to file
             // Display error (warnings from stderr)
         } else {
