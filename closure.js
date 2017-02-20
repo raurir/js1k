@@ -1,6 +1,6 @@
 var con = console;
 const input = process.argv[2], output = process.argv[3];
-con.log("closure", input, output);
+// con.log("closure", input, output);
 
 var ClosureCompiler = require("closurecompiler");
 var fs = require("fs");
@@ -19,7 +19,7 @@ ClosureCompiler.compile(
     },
     function(error, result) {
         if (result) {
-            con.log("result length:", result.length)
+            con.log(">>>> closure:", result.length)
             // result = result.replace(/con\.log\(["\w\s,.]+\);?/g, "");
             // con.log("===============")
             // con.log("es6ing fns")
@@ -41,9 +41,11 @@ ClosureCompiler.compile(
             }
 
             result = result.replace(/requestAnimationFrame\((\w)\)}for\(/, "requestAnimationFrame($1)};for("); // fucking bullshit
-            con.log("post string replace:", result.length);
+            con.log(">>>> closure final:", result.length);
 
+            // con.log("===============")
             con.log(result);
+            // con.log("===============")
 
             fs.writeFile(`${output}.js`, result);
             // Write result to file

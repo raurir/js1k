@@ -4,14 +4,14 @@ e = d.getContext("2d");
 
 // debug = document.createElement("div");
 // b.appendChild(debug)
-b.appendChild(d);
+// b.appendChild(d);
 
 var size = a.width = a.height = 1024, 
 	M = Math, 
 	sc = 1, 
 	scaleTarget = 1, 
 	beginWarp = 1, // true 
-	third = M.PI / 3, 
+	third = M.PI / 3,
 	parts = [], 
 	dead = [];
 
@@ -35,12 +35,8 @@ var create = (parent, d, mod) => {
 	if (parent && dead.length) {
 		p = dead.splice(-1)[0];
 		p.o = 0; // false;
-		p.d = d;
-		
-		
+		p.d = d;		
 		p.colour = parent.colour;
-
-		//p.setColour();
 		
 	} else {
 
@@ -50,7 +46,6 @@ var create = (parent, d, mod) => {
 
 			r: () => { // reset
 				p.alive = 1; // true
-				
 				p.x = p.lx = x;
 				p.y = p.ly = y;
 				p.dying = r(4) + 1;
@@ -58,22 +53,13 @@ var create = (parent, d, mod) => {
 			},
 
 			o,
-			life: 0,
 			d: d || r(3) * 2, // 0, 2 or 4
 			mod,
 			s: 2 * mod,
-			// s: 1 / M.pow(2, r(2)),
-			v: 1 / 32,// / mod, // / M.pow(2, r(4)),
-			// setColour: () => {
-				// p.colour = "hsla(" + (p.life++ * 20) + ",50%," + (20 + p.s * 20) +"%,0.7)";
 			colour: parent ? parent.colour : "hsla(" + (150 + parts.length * 20) + ",50%,60%,.8)",
-				// p.colour = parent ? parent.colour : "hsla(" + r(360) + ",50%,50%,1)";
-				// con.log(p.colour)
-			// },
+			// p.colour = parent ? parent.colour : "hsla(" + r(360) + ",50%,50%,1)";
 			kill: () => {
-				// p.x = 0;
-				// p.y = 0;
-				p.alive = 0; //false;
+				p.alive = 0; // false
 				dead.push(p);
 			},
 			m: () => {
@@ -91,8 +77,8 @@ var create = (parent, d, mod) => {
 					return;
 				}
 
-				p.pos += p.v;
-				if (p.pos==1) { // p01 thanks! using 1 / (powers of 2)
+				p.pos += 1 / 32; // p01 thanks! using 1 / (powers of 2)
+				if (p.pos == 1) {
 
 					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
 						if (p.o) {
@@ -104,7 +90,6 @@ var create = (parent, d, mod) => {
 					}
 
 					p.pos = 0;
-					// p.setColour();
 					p.d += r(2) * 2 - 1; // add -1 or 1 to new dir.
 
 					if (p.mod > 1 / 4 && r(9) > 2) { // duplicate at current position
@@ -160,7 +145,7 @@ var render = (t) =>{
 
 	// debug.innerHTML = parts.map(p=>Math.round(p.x)); 
 
-	if ((0|(t / size)) % 5 == 0) { // Math.round
+	if ((0|t / size) % 5 == 0) { // Math.round
 		if (!beginWarp) { // warp has just begun! fuck yeah.
 			beginWarp = 1; // true
 			scaleTarget = M.random() + .7; // Math.sqrt(2) / 2 is min scale
@@ -174,7 +159,7 @@ var render = (t) =>{
 	c.save();
 	c.translate(size / 2, size / 2);
 	c.scale(sc, sc);
-	c.rotate(t * 0.0001); // arbitrary divisor
+	c.rotate(t * .0001); // arbitrary divisor
 	c.translate(-size, -size);
 
 	e.fillStyle = "rgba(0,0,0,.04)";
