@@ -19,8 +19,6 @@ d.width = d.height = size * 2;
 
 var r = v => ~~(M.random() * v);
 
-var sixit = v => v;//(v + 6) % 6; // clamp v between 0 and 6
-
 var create = (parent, d, mod) => {
 	var p;
 	var x = parent ? parent.x : size;
@@ -93,8 +91,8 @@ var create = (parent, d, mod) => {
 					return;
 				}
 
-				p.pos += p.v;// 1 / 16; //p01!!
-				if (p.pos==1) {
+				p.pos += p.v;
+				if (p.pos==1) { // p01 thanks! using 1 / (powers of 2)
 
 					if (p.x < 0 || p.y > size * 2 || p.y < 0 || p.y > size * 2) {
 						if (p.o) {
@@ -105,10 +103,9 @@ var create = (parent, d, mod) => {
 						return;
 					}
 
-
 					p.pos = 0;
 					// p.setColour();
-					p.d += sixit(r(2) * 2 - 1); // add -1 or 1 to new dir.
+					p.d += r(2) * 2 - 1; // add -1 or 1 to new dir.
 
 					if (p.mod > 1 / 4 && r(9) > 2) { // duplicate at current position
 						
@@ -117,13 +114,9 @@ var create = (parent, d, mod) => {
 						// newDir = (newDir + 6) % 6; // clamp to positives: 0 > 5
 						for (var i = r(6); i--;) {
 							// con.log(i)
-							
-							var newDir = sixit(p.d + r(2) * 4 - 2); // same as above 3 lines
-							
+							var newDir = p.d + r(2) * 4 - 2; // same as above 3 lines
 							// e.fillStyle = "red"
 							// e.fillRect(p.x - 10, p.y - 10, 20, 20);//p.s, p.s);
-
-							// create(false, p.x, p.y, newDir, p.mod / 2);
 							create(p, newDir, p.mod / 2);
 							// debugger;
 						}
@@ -149,10 +142,6 @@ var create = (parent, d, mod) => {
 					p.ly = p.y;
 
 				}
-				// if (p.d < 0 || p.d > 5) {con.log("aargh", p.d);}
-
-				// if (M.round(p.x * 32) != p.x * 32) con.log("unround", p.x)
-
 
 			}
 		}
@@ -171,7 +160,7 @@ var render = (t) =>{
 
 	// debug.innerHTML = parts.map(p=>Math.round(p.x)); 
 
-	if ((0|(t / size)) % 5 == 0) {
+	if ((0|(t / size)) % 5 == 0) { // Math.round
 		if (!beginWarp) { // warp has just begun! fuck yeah.
 			beginWarp = 1; // true
 			scaleTarget = M.random() + .7; // Math.sqrt(2) / 2 is min scale
