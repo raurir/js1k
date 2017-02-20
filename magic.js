@@ -48,7 +48,7 @@ var create = (parent, d, mod) => {
 		p.dying = r(4) + 1;
 		p.alive = true;
 		p.colour = parent.colour;
-
+		p.path = [];
 		//p.setColour();
 		
 	} else {
@@ -56,6 +56,8 @@ var create = (parent, d, mod) => {
 		if (parts.length > size) return ;//con.warn("too many!");
 
 		p = {
+
+			path: [],
 
 			pos: 0,
 			dying: 1,
@@ -79,6 +81,7 @@ var create = (parent, d, mod) => {
 				// con.log(p.colour)
 			// },
 			kill: () => {
+				p.path = [];
 				// p.x = 0;
 				// p.y = 0;
 				p.alive = false;
@@ -146,6 +149,13 @@ var create = (parent, d, mod) => {
 
 					// p.colour = `rgba(255,255,255,1)`;//${ p.dying })`;
 
+					p.path.push([p.x, p.y]);
+
+					if (p.path.length > 30) {
+						p.path.shift();
+					}
+					// if 
+
 					// e.fillStyle = "#000"
 					// e.fillStyle = p.colour;
 					// e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
@@ -153,11 +163,15 @@ var create = (parent, d, mod) => {
 					e.lineWidth = p.mod * 6;
 					e.strokeStyle = p.colour;
 					e.beginPath();
-					e.moveTo(p.lx, p.ly);
-					e.lineTo(p.x, p.y);
+					
+					p.path.forEach((n,i) => {
+						e[i ? "lineTo" : "moveTo"](n[0], n[1]);
+					});
+
+					// e.(p.x, p.y);
 					e.stroke();
-					p.lx = p.x;
-					p.ly = p.y;
+					// p.lx = p.x;
+					// p.ly = p.y;
 				}
 				// if (p.d < 0 || p.d > 5) {con.log("aargh", p.d);}
 
@@ -190,13 +204,15 @@ var render = (t) =>{
 
 	sc -= (sc - scaleTarget) / 20;
 
+	c.clearRect(0, 0, size, size);
 	c.save();
 	c.translate(size / 2, size / 2);
 	c.scale(sc, sc);
 	c.rotate(t * 0.0001); // arbitrary divisor
 	c.translate(-size, -size);
 
-	e.fillStyle = "rgba(0,0,0,0.04)";
+	// e.clearRect(0, 0, size * 2, size * 2);
+	e.fillStyle = "rgba(0,0,0,0.05)";
 	e.fillRect(0, 0, size * 2, size * 2);
 
 
