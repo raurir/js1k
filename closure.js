@@ -40,7 +40,8 @@ ClosureCompiler.compile(
                 }
             }
 
-            result = result.replace(/requestAnimationFrame\((\w)\)}for\(/, "requestAnimationFrame($1)};for("); // fucking bullshit
+            // result = result.replace(/requestAnimationFrame\((\w)\)}for\(/, "requestAnimationFrame($1)};for("); // fucking bullshit
+            result = result.replace(/restore\(\)}for/, "restore()};for"); // fucking bullshit
             con.log(">>>> closure final:", result.length);
 
             // con.log("===============")
