@@ -4,7 +4,7 @@ e = d.getContext("2d");
 
 // debug = document.createElement("div");
 // b.appendChild(debug)
-b.appendChild(d);
+// b.appendChild(d);
 
 var size = a.width = a.height = 1024, 
 	M = Math, 
@@ -27,11 +27,18 @@ var create = (parent, d, mod) => {
 	var y = parent ? parent.y : size;
 	mod = mod || 1;
 	var o = !parent;
+
+	var hue = parent ? parent.hue + r(40) - 20 : 160 + r(70);//(150 + parts.length * 20);
+
 	// con.log(o)
 	// con.log(x, y);
 
 	// e.fillStyle = "blue"
+
 	// e.fillRect(x - 5, y - 5, 10, 10);//p.s, p.s);
+
+	var colour = "hsl(" + hue + ",100%," + mod * 60 + "%)";
+	// con.log(colour)
 
 	
 	if (parent && dead.length) {
@@ -43,13 +50,15 @@ var create = (parent, d, mod) => {
 		p.pos = 0;
 		p.dying = r(4) + 1;
 		p.alive = 1; // true
-		p.colour = parent.colour;
+		p.colour = colour;
 
 		//p.setColour();
 		
 	} else {
 
 		// if (parts.length > size) return ;//con.warn("too many!");
+
+
 
 		p = {
 
@@ -66,10 +75,11 @@ var create = (parent, d, mod) => {
 			d: d || r(3) * 2, // 0, 2 or 4
 			mod,
 			s: 8 * mod,
+			hue,
 			// s: 1 / M.pow(2, r(2)),
 			// setColour: () => {
 				// p.colour = "hsla(" + (p.life++ * 20) + ",50%," + (20 + p.s * 20) +"%,0.7)";
-			colour: parent ? parent.colour : "hsla(" + (150 + parts.length * 20) + ",50%,60%,.8)",
+			colour,
 				// p.colour = parent ? parent.colour : "hsla(" + r(360) + ",50%,50%,1)";
 				// con.log(p.colour)
 			// },
@@ -141,6 +151,9 @@ var create = (parent, d, mod) => {
 					// e.fillStyle = p.colour;
 					// e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
 					// e.fillText(p.index, p.x, p.y + 10);
+
+					
+
 					e.lineWidth = p.mod * 6;
 					// e.strokeStyle = p.o ? "#fff" : p.colour;
 					e.strokeStyle = p.colour;
@@ -176,7 +189,7 @@ var render = (t) =>{
 	if ((0|(t / size)) % 5 == 0) {
 		if (!beginWarp) { // warp has just begun! fuck yeah.
 			beginWarp = 1; // true
-			scaleTarget = M.random() + .7; // Math.sqrt(2) / 2 is min scale
+			scaleTarget = M.random() / 2 + .7; // Math.sqrt(2) / 2 is min scale
 		}
 	} else {
 		beginWarp = 0; // false
@@ -190,7 +203,9 @@ var render = (t) =>{
 	c.rotate(t * 0.0001); // arbitrary divisor
 	c.translate(-size, -size);
 
-	e.fillStyle = "rgba(0,0,0,.04)";
+	// e.globalCompositeOperation = "source-over";
+	// e.globalCompositeOperation = "lighter";
+	e.fillStyle = "rgba(0,0,0,.03)";
 	e.fillRect(0, 0, size * 2, size * 2);
 
 	for(var i=parts.length;i--;) parts[i].m();
