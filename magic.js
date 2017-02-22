@@ -51,7 +51,7 @@ var create = (parent, d, mod) => {
 		p.dying = r(4) + 1;
 		p.alive = 1; // true
 		p.colour = colour;
-
+		p.path = [];
 		//p.setColour();
 		
 	} else {
@@ -61,7 +61,7 @@ var create = (parent, d, mod) => {
 
 
 		p = {
-
+			path: [],
 			pos: 0,
 			dying: 1,
 			alive: 1, // true
@@ -84,6 +84,7 @@ var create = (parent, d, mod) => {
 				// con.log(p.colour)
 			// },
 			kill: () => {
+				p.path = [];
 				// p.x = 0;
 				// p.y = 0;
 				p.alive = 0; //false;
@@ -147,22 +148,30 @@ var create = (parent, d, mod) => {
 					p.x += M.sin(p.d * third) * p.s;
 					p.y += M.cos(p.d * third) * p.s;
 
+
+					p.path.push([p.x, p.y]);
+
+					if (p.path.length > 30) {
+						p.path.shift();
+					}
+					// if 
+
 					// e.fillStyle = "#000"
 					// e.fillStyle = p.colour;
 					// e.fillRect(p.x, p.y, 1, 1);//p.s, p.s);
 					// e.fillText(p.index, p.x, p.y + 10);
-
-					
-
 					e.lineWidth = p.mod * 6;
-					// e.strokeStyle = p.o ? "#fff" : p.colour;
 					e.strokeStyle = p.colour;
 					e.beginPath();
-					e.moveTo(p.lx, p.ly);
-					e.lineTo(p.x, p.y);
+					
+					p.path.forEach((n,i) => {
+						e[i ? "lineTo" : "moveTo"](n[0], n[1]);
+					});
+
+					// e.(p.x, p.y);
 					e.stroke();
-					p.lx = p.x;
-					p.ly = p.y;
+
+
 
 				}
 				// if (p.d < 0 || p.d > 5) {con.log("aargh", p.d);}
