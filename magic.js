@@ -146,12 +146,19 @@ var render = (t) =>{
 	c.translate(size / 2, size / 2);
 	c.scale(sc, sc);
 	c.rotate(t * .0001); // arbitrary divisor
-	c.translate(-size, -size);
+	// c.translate(-size, -size);
+	c.translate(scaleTarget * (size / 2) - size, scaleTarget * (size / 2) - size);
 
-	// e.globalCompositeOperation = "source-over";
-	// e.globalCompositeOperation = "lighter"; // nice effects but... not what i had in mind.
-	e.fillStyle = "rgba(0,0,0,.02)";
-	e.fillRect(0, 0, size * 2, size * 2);
+	if (Math.round(t / 100) == 0) {
+		c.globalCompositeOperation = "source-over";
+		c.fillStyle = "rgba(0,0,0,1)";
+		c.fillRect(0, 0, size * 2, size * 2);
+	} else {
+		e.globalCompositeOperation = "lighter"; // nice effects but... not what i had in mind.
+		c.fillStyle = "rgba(0,0,0,0.1)";
+		c.fillRect(0, 0, size * 2, size * 2);
+	}
+
 
 	for(var i=parts.length;i--;) parts[i].m();
 
