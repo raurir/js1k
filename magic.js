@@ -5,13 +5,13 @@ e = d.getContext("2d");
 // b.appendChild(debug)
 // b.appendChild(d);
 
-var size = a.width = a.height = 1024, 
+var size = a.width = a.height = 1024,
 	M = Math,
-	sc = 1, // true 
-	scaleTarget = 1, // true 
-	beginWarp = 1, // true 
+	sc = 1, // true
+	scaleTarget = 1, // true
+	beginWarp = 1, // true
 	// third = M.PI / 3, // doesn't compress better, eek!
-	parts = [], 
+	parts = [],
 	dead = [];
 
 d.width = d.height = size * 2;
@@ -40,7 +40,7 @@ var create = (parent, d, mod) => {
 		p.alive = 3;
 		p.colour = colour;
 		p.P = [x,y];
-		
+
 	} else {
 
 		// if (parts.length > size) return; // seems to naturally level out at <2k particles
@@ -89,7 +89,7 @@ var create = (parent, d, mod) => {
 					p.pos = 0; // reset to start of next side
 
 					p.d += r(2) * 2 - 1; // add +/- 1 to new dir.
-					// p.d += r(16); // funky triangles or whatever... 
+					// p.d += r(16); // funky triangles or whatever...
 
 					if (p.mod > 1 / 4 && r(9) > 7) { // if large enough, rarely duplicate at current position
 
@@ -127,13 +127,17 @@ var create = (parent, d, mod) => {
 	}
 
 };
+
+// var flipLights = 0;
+
 var render = (t) =>{
 	requestAnimationFrame(render);
-	// debug.innerHTML = parts.map(p=>Math.round(p.x)); 
+	// debug.innerHTML = parts.map(p=>Math.round(p.x));
 
 	if ((0|(t / size)) % 5 == 0) {
 		if (!beginWarp) { // warp has just begun! fuck yeah.
 			beginWarp = 1; // true
+			// flipLights = !flipLights;
 			scaleTarget = M.random() / 2 + .7; // Math.sqrt(2) / 2 is min scale
 		}
 	} else {
@@ -148,10 +152,17 @@ var render = (t) =>{
 	c.rotate(t * .0001); // arbitrary divisor
 	c.translate(-size, -size);
 
-	// e.globalCompositeOperation = "source-over";
-	// e.globalCompositeOperation = "lighter"; // nice effects but... not what i had in mind.
+	// if (flipLights) {
+	// 	e.globalCompositeOperation = "source-over";
+	// } else{
+	// 	e.globalCompositeOperation = "lighter";
+	// }
+	//  // nice effects but... not what i had in mind.
 	e.fillStyle = "rgba(0,0,0,.02)";
 	e.fillRect(0, 0, size * 2, size * 2);
+
+	// e.shadowColor = "black";
+	// e.shadowBlur = 4;
 
 	for(var i=parts.length;i--;) parts[i].m();
 
