@@ -22,11 +22,24 @@ ClosureCompiler.compile(
             con.log(">>>> closure:", result.length)
             // result = result.replace(/con\.log\(["\w\s,.]+\);?/g, "");
             // con.log("===============")
-            // con.log("es6ing fns")
-            result = result.replace(/function\(\)/g, "()=>");
-            result = result.replace(/function (\w)\(([a-z,]+)\)/g, ";$1=($2)=>");
-            result = result.replace(/;var (\w)=/g, ";$1=");
 
+            result = result.replace(/function\(\)/g, "()=>"); // no args
+            result = result.replace(/function (\w)\((\w)\)/g, ";$1=$2=>"); // 1 arg
+
+            // fix the one function has an unnecessary return ... u=f=>{return~~(h.random()*f)}
+            result = result.replace(/;(\w)=(\w)=>{return~~\((\w).random\(\)\*\w\)}/g, 
+                ";$1=$2=>~~($3.random()*$2)"
+            );
+
+            // con.log("es6ing fns")
+            result = result.replace(/function (\w)\(([a-z,]+)\)/g, ";$1=($2)=>"); // multiple args
+            // // remove vars
+            result = result.replace(/;var (\w)=/g, ";$1=");
+            // // remove dobule semicolons
+            result = result.replace(/;;/g, ";");
+
+
+            // convert decimals to fractions when best...
             for (var i = 3; i < 10; i++) {
                 var denominator = Math.pow(2, i);
                 var decimal = String(1 / denominator).substr(1);

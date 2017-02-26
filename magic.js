@@ -30,7 +30,7 @@ var create = (parent, d, mod) => {
 		160 + r(70); // or generate a new one
 	var colour = "hsl(" + hue + ",99%," + mod * 60 + "%)";
 
-	if (parent && dead.length) {
+	if (parent && dead[0]) {
 		p = dead.splice(-1)[0]; // restore a particle from dead pool
 		p.d = d;
 		p.x = x;
@@ -55,6 +55,7 @@ var create = (parent, d, mod) => {
 			d: d || r(3) * 2, 	// direction 0, 2 or 4
 			mod,				// modifier for scale, colour and speed
 			s: 8 * mod,
+			fade: .9 + r(9) * .01, // a number close to .95
 			hue,
 			colour,
 			kill: () => {
@@ -67,9 +68,9 @@ var create = (parent, d, mod) => {
 					return;
 				}
 
-				p.alive *= p.o ? 1 : .95;
+				if (!p.o) p.alive *= p.fade;
 
-				if (p.alive < 1/size) {
+				if (p.alive < 1/size) { // arbitrary small number... 
 					p.kill();
 					return;
 				}
@@ -152,12 +153,8 @@ var render = (t) =>{
 	c.rotate(t * .0001); // arbitrary divisor
 	c.translate(-size, -size);
 
-	// if (flipLights) {
-	// 	e.globalCompositeOperation = "source-over";
-	// } else{
-	// 	e.globalCompositeOperation = "lighter";
-	// }
-	//  // nice effects but... not what i had in mind.
+	// e.globalCompositeOperation = flipLights ? "source-over" : "lighter";
+	// nice effects but... not what i had in mind.
 	e.fillStyle = "rgba(0,0,0,.02)";
 	e.fillRect(0, 0, size * 2, size * 2);
 
@@ -171,6 +168,6 @@ var render = (t) =>{
 
 };
 
-while(parts.length < 5) create();
-
+while(sc -= 1/8) create(); // creates 7.
+// con.log(parts.length)
 render(1);
