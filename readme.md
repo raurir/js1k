@@ -9,4 +9,4 @@ use modern node:
 
 compress:
 
-	node --use-strict reg.js
+	compile.sh
