@@ -5,7 +5,7 @@ e = d.getContext("2d");
 // b.appendChild(debug)
 // b.appendChild(d);
 
-var size = a.width = a.height = 1024,
+var size = 1024,
 	M = Math,
 	sc = 1, // true
 	scaleTarget = 1, // true

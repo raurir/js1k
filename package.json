@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/raurir/js1k-2017#readme",
   "devDependencies": {
+    "base-64": "^0.1.0",
     "closurecompiler": "^1.6.1"
   }
 }
