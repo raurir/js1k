@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://js1k.com/2014-dragons/shim-normal.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>JS1k, [COMPO] demo submission [ID]</title>
+		<meta charset="utf-8">
+    <style>
+      html, body { margin: 0; padding: 0; border: 0; }
+      #c { display: block; /*border:1px solid #000;*/} /* kill scrollbars from hell */
+    </style>
+	</head>
+	<body style="">
+		<canvas id="c" width="1189" height="679" style="width: 1189px; height: 679px;"></canvas>
+    <div id='out1'></div>
+    <div id='out2'></div>
+		<script>
+			var a = document.getElementsByTagName('canvas')[0];
+			var b = document.body;
+      var d = function(e){ return function(){ e.parentNode.removeChild(e); }; }(a);
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      var AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+      var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(f){ setTimeout(f, 1000/30); };
+      // stretch canvas to screen size (once, wont onresize!)
+      a.style.width = (a.width = innerWidth - 0) + 'px';
+      a.style.height = (a.height = innerHeight - 0) + 'px';
+
+      var c = a.getContext('2d');
+		</script>
+		<script>
+// start of submission //
+
+
+
+
+
+
+con = console
+
+/*
+  var arrOriginal = [
+  0,0,9,0,72,72,54,72,54,90,36,72,36,108,54,126,81,135,117,126,144,108,180,45,171,18,207,36,243,72,288,135,333,297,297,252,279,234,252,225,243,243,216,216,189,207,171,207,162,225,135,207,108,198,72,216,54,243,36,306,27,378,36,432,18,423,36,468,18,459,27,504,18,495,18,522,0,576
+  ]
+
+  // 
+
+  // con.log(arrOriginal)
+
+  function makeString(array) { // make string from array for production
+    var arr2 = ""
+    array.forEach(function(a) {
+      var o9 = a/9 + 32
+      s = String.fromCharCode(o9)
+      arr2 += s
+    })
+    return arr2
+  }
+
+  var coords = makeString(arrOriginal)
+
+  con.log(coords)
+
+
+
+  var coords = '  ! ((&(&*$($,&.)/-.0,4%3"7$;(@/EAA<?:<9;;88573729/7,6(8&;$B#J$P"O$T"S#X"W"Z `'
+
+  function makeArray(string) { // convert string back to array
+    var arr4 = []
+    string.split("").forEach(function(a,i) {
+      arr4[i] = (a.charCodeAt(0) - 32);// * 9
+    })
+    return arr4
+  }
+
+  var arr = makeArray(coords)
+
+
+  arr.forEach(function(a,i) {
+    //arr[i] = a * (1 + M.random() * 0.1 - 0.05) * 0.5
+    arr[i] = a / 9
+  })
+
+
+  // con.log(arr)
+
+  arr.forEach(function(a,i) {
+    //arr[i] = a * (1 + M.random() * 0.1 - 0.05) * 0.5
+    // arr[i] = a * 0.5
+    // if (i%2 == 0) con.log(a)
+  })
+
+
+*/
+
+
+
+
+
+
+var sw = a.width
+var sh = a.height
+
+var M = Math;
+
+
+var arr = []
+'  ! ((&(&*$($,&.)/-.0,4%3"7$;(@/EAA<?:<9;;88573729/7,6(8&;$B#J$P"O$T"S#X"W"Z `'.split("").map(function(a,i) {
+  arr[i] = (a.charCodeAt(0) - 32);
+})
+
+
+
+
+  var pfloat = 0
+
+
+var pi = M.PI, TAU = pi * 2;
+function ran(a,b) {return a + M.random() * (b-a);}
+
+
+function dragon() {
+
+  var gx = sw / 2, gy = sh / 2, lim = 200;
+
+  var speed = ran(3,5)
+  var direction = ran(0,TAU)
+  var direction1 = direction
+
+  var snake = []
+
+  return function() {
+
+    
+
+    if (gx < -lim || gx > sw + lim || gy < -lim || gy > sh + lim) {
+
+        var dx = ran( sw / 4, sw * 3 / 4) - gx
+        var dy = ran( sh / 4, sh * 3 / 4) - gy
+
+        direction = direction1 = M.atan(dx/dy) + (dy < 0 ? pi : 0);
+
+    } else {
+       direction1 += (M.random() - 0.5) * 0.1;
+       direction -= (direction - direction1) * 0.1;
+  
+    }
+
+    
+    gx += M.sin(direction) * speed;
+    gy += M.cos(direction) * speed;
+   
+
+    
+
+    // document.getElementById('out2').innerHTML = M.round(gx) + "/" + M.round(gy) + " <br>" + M.round(direction * 180 / pi) + ": " + M.round(direction1 * 180 / pi)
+
+
+    // con.log(snake.length, arr.length)
+
+
+
+    for (var i=0; i < 65; i++) {
+
+      if ( i == 0 ) {
+
+        snake[i] = {x: gx, y: gy, px: 0, py: 0}
+
+      } else {
+
+        // if (!snake[i]) snake[i] = {x: sw/2, y: sh/2}
+        if (pfloat == 0) snake[i] = {x: gx, y: gy}
+
+        var p = snake[i - 1]
+
+        var dx = snake[i].x - p.x, dy = snake[i].y - p.y
+
+        var d = M.sqrt(dx * dx + dy * dy)
+
+        var maxD = 2
+
+        if (d >= maxD * 2) {
+          var mod = 1
+        } else if (d >= maxD) {
+          // mod =  1 - M.pow(0.10,d)
+          // mod = M.pow(2, d - 10) / 1024
+          // mod = (M.pow(2, d - 10) - 1) / 1024
+          mod = (d - maxD) / maxD
+        } else {
+          mod = 0
+        }
+
+        var angle = M.atan(dy/dx)
+
+        var follow = 0.5// * (il - i) / il
+
+        var perpendicular = angle + pi / 2 + (dx < 0 ? pi : 0)
+
+        snake[i].x -= dx * follow * mod
+        snake[i].y -= dy * follow * mod
+        snake[i].px = M.cos(perpendicular)
+        snake[i].py = M.sin(perpendicular)
+
+
+        // c.strokeStyle = "blue"
+        // c.beginPath()
+        // c.moveTo(p.x, p.y);
+        // c.lineTo(x, y);
+        // c.closePath()
+        // c.stroke()
+
+
+
+        // c.strokeStyle = "rgba(255,180,180,1)"
+        // c.beginPath()
+        // c.moveTo(x, y);
+        // c.lineTo(x - M.cos(perpendicular) * 40, y - M.sin(perpendicular) * 40);
+        // c.closePath()
+        // c.stroke()
+
+        // c.strokeStyle = "rgba(180,255,180,1)"
+        // c.beginPath()
+        // c.moveTo(x, y);
+        // c.lineTo(x + M.cos(perpendicular) * 40, y + M.sin(perpendicular) * 40);
+        // c.closePath()
+        // c.stroke()
+
+
+
+        // c.moveTo(x, y);
+        // c.lineTo(x + dy/dx * 40, y + dx/dy * 40);
+        
+        // c.moveTo(p.x, p.y);
+        // c.lineTo(x, y);
+
+
+      }
+
+      // c.fillRect(x-5,y-5,10,10)
+
+    }
+
+    // c.fill()
+    
+
+    // c.fillStyle = "rgba(0,0,0,0.2)"
+
+    // c.beginPath()
+    c.moveTo(snake[0].x,snake[0].y)
+
+    for (i=0; i < arr.length * 2; i+=2) {
+
+
+      if (i < arr.length ) {
+        var index = i
+        var L = 1
+      } else { 
+        index = 2 * arr.length - i - 2;
+        L = -1
+      }
+
+      // con.log(i,index,L, arr.length)
+
+      var x = arr[index], y = arr[index+1];
+
+      
+      var wstart = 12, wend = 58
+
+      if ( index > wstart && index < wend) {
+        // con.log(index, x)
+
+        var delta = (wend - wstart)
+        var halfdelta = delta / 2 
+
+        var halfway = halfdelta + wstart
+        var mag = halfdelta - M.abs(halfway - index)
+
+        // con.log(index,delta, halfdelta, halfway,mag)
+
+        // 6 is hinge point
+
+        x = (6 + (x-6) * (M.sin(index * 0.04 + pfloat * 0.04) + 2) / 2)
+        y *= 1 + (M.cos(pfloat * 0.04) + 2) * mag * 0.01
+      }
+      
+      var baseY = arr[index+1];
+      var basePosition = snake[baseY]
+
+      c.lineTo(basePosition.x + x * L * basePosition.px, basePosition.y + x * L * basePosition.py);
+    }
+
+    // c.closePath()
+    // c.fill()
+
+  }
+
+}
+
+
+
+var dragons = []
+
+function loop() {
+
+  a.width = sw
+
+  
+
+  for ( var j = 0; j < 10; j++) {
+    if ( !dragons[j] ) dragons[j] = dragon();
+    dragons[j]()
+  }
+  // c.fillStyle = "#eee"
+
+  c.fill()
+
+  pfloat++
+
+  requestAnimationFrame(loop);
+     // setTimeout( r, 50 )
+}
+
+loop()
+
+// requestAnimationFrame(d.r);
+
+// end of submission //
+		</script>
+	
+
+</body></html>

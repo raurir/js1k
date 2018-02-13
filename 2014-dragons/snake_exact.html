@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://js1k.com/2014-dragons/shim-normal.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>JS1k, [COMPO] demo submission [ID]</title>
+		<meta charset="utf-8">
+    <style>
+      html, body { margin: 0; padding: 0; border: 0; }
+      #c { display: block; } /* kill scrollbars from hell */
+    </style>
+	</head>
+	<body style="">
+		<canvas id="c" width="1189" height="679" style="width: 1189px; height: 679px;"></canvas>
+		<script>
+			var a = document.getElementsByTagName('canvas')[0];
+			var b = document.body;
+      var d = function(e){ return function(){ e.parentNode.removeChild(e); }; }(a);
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      var AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+      var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(f){ setTimeout(f, 1000/30); };
+      // stretch canvas to screen size (once, wont onresize!)
+      a.style.width = (a.width = innerWidth) + 'px';
+      a.style.height = (a.height = innerHeight) + 'px';
+
+      var c = a.getContext('2d');
+		</script>
+		<script>
+// start of submission //
+
+
+con = console
+
+
+sw = a.width
+sh = a.height
+
+c.fillstyle = "#000"
+
+
+glob = {
+  length: 20,
+  x: 0,
+  y: 0,
+  vx: 1,
+  vy: 0
+}
+
+
+snake = []
+
+for (i=0; i < 20; i++) {
+  snake[i] = {x: 0, y: 0}
+}
+
+p = 0
+
+mx = sw /2
+my = sh /2
+
+window.addEventListener("mousemove", function(e) { 
+  // console.log(e)
+  mx = e.x
+  my = e.y
+})
+
+function r() {
+
+  a.width = a.width
+
+  p++
+
+  // c.save()
+  // c.translate( sw/2,sh/2)
+  // c.rotate(p * 0.01)
+  // c.translate( -200,0)
+  // c.scale(0.25,0.25)
+
+  glob.vx = (mx - glob.x) * 0.5
+  glob.vy = (my - glob.y) * 0.4
+
+
+  glob.x += glob.vx
+  glob.y += glob.vy
+  
+  for (i=0, il = snake.length; i < il; i++) {
+
+    if ( i == 0 ) {
+
+      x = glob.x
+      y = glob.y
+
+      snake[i].x = x
+      snake[i].y = y
+
+      
+
+    } else {
+
+      p = snake[i - 1]
+
+      follow = 0.1// * (il - i) / il
+
+      dx = snake[i].x - p.x
+      dy = snake[i].y - p.y
+
+      d = Math.sqrt(dx * dx + dy * dy)
+
+      maxD = 30
+
+      if (d > maxD) {
+        d = maxD
+      }
+
+      angle = Math.atan(dy/dx) + (dx < 0 ? Math.PI : 0);
+
+      snake[i].x = p.x + Math.cos(angle) * d
+      snake[i].y = p.y + Math.sin(angle) * d
+
+
+      x = snake[i].x
+      y = snake[i].y
+
+      c.moveTo(p.x, p.y);
+      c.lineTo(x, y);
+
+      c.moveTo(x, y);
+      c.lineTo(x - Math.cos(angle + Math.PI / 2) * 40, y - Math.sin(angle + Math.PI / 2) * 40);
+
+      c.moveTo(x, y);
+      c.lineTo(x + Math.cos(angle + Math.PI / 2) * 40, y + Math.sin(angle + Math.PI / 2) * 40);
+
+      // c.moveTo(x, y);
+      // c.lineTo(x + dy/dx * 40, y + dx/dy * 40);
+      
+      // c.moveTo(p.x, p.y);
+      // c.lineTo(x, y);
+
+
+    }
+
+    c.fillRect(x-5,y-5,10,10)
+
+  }
+
+  // c.fill()
+  c.stroke()
+
+
+  // c.restore()
+
+  requestAnimationFrame(r);
+}
+r()
+
+
+
+// end of submission //
+		</script>
+	
+
+</body></html>

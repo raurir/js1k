@@ -3,3 +3,4 @@
 Gruntfile.coffee
 magic-compress*.*
 node_modules/
+RegPack

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://js1k.com/2014-dragons/shim-normal.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>JS1k, [COMPO] demo submission [ID]</title>
+		<meta charset="utf-8">
+    <style>
+      html, body { margin: 0; padding: 0; border: 0; }
+      #c { display: block; /*border:1px solid #000;*/} /* kill scrollbars from hell */
+    </style>
+	</head>
+	<body style="">
+		<canvas id="c" width="1189" height="679" style="width: 1189px; height: 679px;"></canvas>
+    <div id='out1'></div>
+    <div id='out2'></div>
+		<script>
+			var a = document.getElementsByTagName('canvas')[0];
+			var b = document.body;
+      var d = function(e){ return function(){ e.parentNode.removeChild(e); }; }(a);
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      var AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+      var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(f){ setTimeout(f, 1000/30); };
+      // stretch canvas to screen size (once, wont onresize!)
+      a.style.width = (a.width = innerWidth - 0) + 'px';
+      a.style.height = (a.height = innerHeight - 0) + 'px';
+
+      var con = console;
+
+      var c = a.getContext('2d');
+		</script>
+    <script type="text/javascript" src="combined.js"></script>
+
+</body></html>

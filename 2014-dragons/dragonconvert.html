@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://js1k.com/2014-dragons/shim-normal.html -->
+<html>
+<head>
+</head>
+<body style="">
+<script>
+
+con = console
+
+var svg = "9,0 72,72 36,72 54,126 144,126 171,18 315,99 333,297 261,153 243,243 189,180 162,225 108,207 36,306"
+var svg = "9,0 72,72 36,72 54,126 144,126 171,18 315,99 333,288 288,198 252,288 216,198 180,288 144,198 108,288 72,198 36,288"
+
+svg = svg.replace(/\ /g, ",")
+svg = svg.replace(/\.5/g, "")
+
+con.log(svg)
+
+arrOriginal = svg.split(",")
+
+con.log(arrOriginal.length)
+
+
+
+con.log(arrOriginal.length)
+
+function makeString(array) { // make string from array for production
+
+  var arr2 = ""
+  array.forEach(function(a, i) {
+    var o9 = a/9
+    var offset = o9 + 32
+    var s = String.fromCharCode(offset)
+
+    con.log(i, a, o9, s)
+
+    arr2 += s
+  })
+  return arr2
+}
+
+var coords = makeString(arrOriginal)
+
+con.log(coords)
+
+
+
+var coords = '  "!\')#($,&.)/-.0,3(4%3"6#:&=*@/B4D:EAB<?:<9;;88573729/7,6(8&;$B#H"N"T!Z `'
+
+function makeArray(string) { // convert string back to array
+  var arr4 = []
+  string.split("").forEach(function(a,i) {
+    arr4[i] = (a.charCodeAt(0) - 32);
+  })
+  return arr4
+}
+
+var arr = makeArray(coords)
+
+/*
+var arr = []
+'  ! ((&(&*$($,&.)/-.0,4%3"7$;(@/EAA<?:<9;;88573729/7,6(8&;$B#J$P"O$T"S#X"W"Z `'.split("").map(function(a,i) {
+  arr[i] = (a.charCodeAt(0) - 32);
+})
+*/
+
+</script>
+
+
+</body></html>

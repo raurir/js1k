@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://js1k.com/2014-dragons/shim-normal.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>JS1k, [COMPO] demo submission [ID]</title>
+		<meta charset="utf-8">
+    <style>
+      html, body { margin: 0; padding: 0; border: 0; }
+      #c { display: block; } /* kill scrollbars from hell */
+    </style>
+	</head>
+	<body style="">
+		<canvas id="c" width="1189" height="679" style="width: 1189px; height: 679px;"></canvas>
+		<script>
+			var a = document.getElementsByTagName('canvas')[0];
+			var b = document.body;
+      var d = function(e){ return function(){ e.parentNode.removeChild(e); }; }(a);
+      // unprefix some popular vendor prefixed things (but stick to their original name)
+      var AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+      var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(f){ setTimeout(f, 1000/30); };
+      // stretch canvas to screen size (once, wont onresize!)
+      a.style.width = (a.width = innerWidth) + 'px';
+      a.style.height = (a.height = innerHeight) + 'px';
+
+      var c = a.getContext('2d');
+		</script>
+		<script>
+// start of submission //
+
+
+con = console
+
+
+sw = a.width
+sh = a.height
+
+c.fillstyle = "#000"
+
+
+
+
+
+
+
+
+
+
+
+arrOriginal = [
+0,0,9,0,72,72,54,72,54,90,36,72,36,108,54,126,81,135,117,126,144,108,180,45,171,18,207,36,243,72,288,135,333,297,297,252,279,234,252,225,243,243,216,216,189,207,171,207,162,225,135,207,108,198,72,216,54,243,36,306,27,378,36,432,18,423,36,468,18,459,27,504,18,495,18,522,0,576
+]
+
+// coords = '  ! ((&(&*$($,&.)/-.0,4%3"7$;(@/EAA<?:<9;;88573729/7,6(8&;$B#J$P"O$T"S#X"W"Z `'
+
+con.log(arrOriginal)
+
+function makeString(array) { // make string from array for production
+  var arr2 = ""
+  array.forEach(function(a) {
+    var o9 = a/9 + 32
+    s = String.fromCharCode(o9)
+    arr2 += s
+  })
+  return arr2
+}
+
+coords = makeString(arrOriginal)
+
+con.log(coords)
+
+function makeArray(string) { // convert string back to array
+  var arr4 = []
+  var arr3 = string.split("")
+  con.log(arr3.length)
+  arr3.forEach(function(a,i) {
+    arr4[i] = (a.charCodeAt(0) - 32) * 9
+  })
+  return arr4
+}
+
+arr = makeArray(coords)
+
+
+arr.forEach(function(a,i) {
+  arr[i] = a * (1 + Math.random() * 0.1 - 0.05)
+})
+
+
+con.log(arr)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+p = 0
+
+function r() {
+
+  a.width = a.width
+
+  p++
+
+  // x = Math.sin(p) + sw/2
+  // y = sh/2
+
+  c.save()
+  c.translate( sw/2,sh/2)
+  // c.rotate(p * 0.01)
+  // c.translate( -200,0)
+  c.scale(0.25,0.25)
+
+
+  // for ( L in [-1,1]) {}
+
+  function draw(L) {
+
+    c.moveTo(0,0- 100)
+
+    for (i=0; i < arr.length; i+=2) {
+
+
+
+
+      x = arr[i];
+      y = arr[i+1] - 100
+
+
+      wstart = 12
+      wend = 58
+
+      if ( i > wstart && i < wend) {
+        // con.log(i, x)
+
+        delta = (wend - wstart)
+        halfdelta = delta / 2 
+
+        halfway = halfdelta + wstart
+        mag = halfdelta - Math.abs(halfway - i)
+
+        // con.log(i,delta, halfdelta, halfway,mag)
+
+        // 54 is hinge point
+
+        x = (54 + (x-54) * (Math.sin(i * 0.04 + p * 0.04) + 2) / 2) 
+        y *= 1 + (Math.cos(p * 0.04) + 2) * mag * 0.01
+      }
+
+      c.lineTo(x * L,y);
+    }
+
+    c.fill()
+
+  }
+
+  draw(1);
+  draw(-1);
+
+
+
+
+  c.restore()
+
+  requestAnimationFrame(r);
+}
+r()
+
+
+
+// end of submission //
+		</script>
+	
+
+</body></html>

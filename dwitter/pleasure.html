@@ -1,0 +1,141 @@
+\/\/.*
+
+^ regex to end of line
+
+<canvas id="c" width="600" height="600"></canvas>
+
+<script type="text/javascript">
+
+
+
+x=c.getContext('2d')
+/*
+// c is defined by browser since canvas has id c
+
+s=600 // square canvas size 
+p=80 // number of points, lines and margins!
+g=(s-2*p)/p // gap between each point and line
+for(i=0;i<p;i++){
+  for(k=0;k<p;k++){
+    u=Math.pow(2*( // upper limit
+    k<p/2 // detect half way point on each line
+    ?k // from 0 to 0.5
+    :p-k // from 0.5 to 1
+    ),3)/p/700 // power it up to spike at halfway point, and divide by magic number to keep it within range
+    l=u/1.5 // lower limit, slightly below upper limit 
+    t[k?'lineTo':'moveTo']( // first node in line do a move to, otherwise line to.
+    p+k*g, // x
+    p+(i-(l+Math.random()*(u-l)))*g // y
+    )
+  }
+}
+t.fillRect(0,0,s,s)
+t.strokeStyle='#fff'
+t.fill()
+t.stroke()
+*/
+// t=c.getContext('2d'),s=600,p=80,g=(s-2*p)/p;for(i=0;i<p;i++){for(k=0;k<p;k++){u=Math.pow(2*(k<p/2?k:p-k),3)/p/700,l=u/1.5;t[k?'lineTo':'moveTo'](p+k*g,p+(i-(l+Math.random()*(u-l)))*g)}};t.fillRect(0,0,s,s);t.strokeStyle='#fff';t.fill();t.stroke();
+
+//t=c.getContext`2d`;for(t.fillRect(0,0,i=600,i);i-=1/32;t.strokeStyle='tan')with(Math)t.lineTo(300+cos(i*PI)*310,(i<<3)-random()*64*pow(sin(i%1*PI),21));t.stroke();t.fill()
+
+/*
+u(t) is called 60 times per second.
+t: Elapsed time in seconds.
+S: Shorthand for Math.sin.
+C: Shorthand for Math.cos.
+T: Shorthand for Math.tan.
+R: Function that generates rgba-strings, usage ex.: R(255, 255, 255, 0.5)
+c: A 1920x1080 canvas.
+x: A 2D context for that canvas.
+*/
+
+con = console
+
+S = Math.sin;
+C = Math.cos;
+T = Math.tan;
+
+
+function r(t){
+// for(i=640;i-=1/32;)with(Math)x.lineTo(300+cos(i*PI)*310,(i<<3)-random()*64*pow(sin(i%1*PI),19));x.stroke()
+
+// c.width=1920; /* clear the canvas */
+//   for(i=0;i<9;i++)
+//   x.fillRect(400+i*100+S(t)*300, 400, 50, 200) /* draw 50x200 rects */
+
+/*
+x.beginPath()
+
+p=80 // number of points, lines and margins!
+s=600 // square canvas size
+// g=(s-2*p)/p // gap between each point and line
+g=5
+for(i=0;i<p;i++){
+  for(k=0;k<p;k++){
+    // u=Math.pow(2*( // upper limit
+    // k<p/2 // detect half way point on each line
+    // ?k // from 0 to 0.5
+    // :p-k // from 0.5 to 1
+    // ),3)/p/700 // power it up to spike at halfway point, and divide by magic number to keep it within range
+
+    var j = (k - p / 2) / (p / 2)
+    j = 1 - j * j;
+    // con.log(j)
+
+    u = S(100 + t + i * k) * 2 * j
+    u = u*u
+    u = (k == 0 || k == p - 1) ? 0 : u;
+
+    // con.log(u)
+
+    l=u/1.5 // lower limit, slightly below upper limit
+    x[k?'lineTo':'moveTo']( // first node in line do a move to, otherwise line to.
+    p+k*g, // x
+    // p+(i-(l+Math.random()*(u-l)))*g // y
+    p + (i - l + Math.random() * (u - l)) * g // y
+    )
+  }
+}
+x.fillRect(0,0,s,s)
+
+x.strokeStyle='#fff'
+// x.fillStyle='#f00'
+x.fill()
+x.stroke()
+*/
+x.beginPath()
+p=80
+s=600
+g=5
+for(i=0;i<p;i++){
+for(k=0;k<p;k++){
+j=(k-p/2)/(p/2)
+j=1-j*j
+u=S(100+t+i*k)*2*j
+u=u*u
+u=(k==0||k==p-1)?0:u
+l=u/1.5
+x[k?'lineTo':'moveTo'](
+p+k*g,
+p+(i-l+Math.random()*(u-l))*g
+)
+}
+}
+x.fillRect(0,0,s,s)
+x.strokeStyle='#fff'
+x.fill()
+x.stroke()
+
+
+
+    // requestAnimationFrame(r)
+
+    setTimeout(() => r(t+1), 100)
+} //126/140
+
+r(0)
+
+
+
+
+</script>
