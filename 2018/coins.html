@@ -1,0 +1,130 @@
+﻿<body id=b style=margin:0>
+<canvas id=a></canvas>
+<script>
+d = document;
+c = a.getContext("2d");
+a.width = innerWidth;
+a.height = innerHeight;
+
+con = console;
+
+var bs = 4;// 22; // no of objects
+
+var r;// range of mouse detection
+var s = 0.01; // speed
+var it = 1 / 20; // position calculation iterations
+
+var fric = 0.995;
+
+var dx;
+var dy;
+var angle;
+var d;
+var m;
+
+var ux;
+var uy;
+
+var i;
+var j;
+
+var v = [];
+
+var sw = innerWidth;
+var sh = innerHeight;
+
+for (i = 0; i < bs; i++ ) { // create grid of objects
+	x = Math.random() * 400
+	y = Math.random() * 400
+	b = {
+		mx: 1,
+		my: 1,
+		r: 0.001,//Math.random() * 20 + 10,
+		x,
+		y,
+		sx: x, sy: y,
+	};
+	v[i] = b ;
+}
+
+calculateCategory();
+
+
+function calculateCategory( e ) {
+	requestAnimationFrame(calculateCategory);
+	c.clearRect(0,0,sw,sh)
+	for (i = 0; i < bs; i++ ) {
+		b = v[i];
+		// con.log(b)
+		for (j = i + 1; j < bs; j++ ) {
+			o = v[j];
+			dx = b.x - o.x;
+			dy = b.y - o.y;
+			d = Math.sqrt( dx * dx + dy * dy ) + 0.00001;
+			r = b.r + o.r;
+			//if (d && d < r) {
+			m = ( s * r / d ) * 40;
+			ux = m * dx / d;
+			uy = m * dy / d;
+			//b.m -= m / b.r;
+			b.mx -= ux / b.r;
+			b.my -= uy / b.r;
+			//o.m += m / o.r;
+			o.mx += ux / o.r;
+			o.my += uy / o.r;
+			//} else {
+				//b.mx *= fric;
+				//b.my *= fric;
+				//o.mx *= fric;
+				//o.my *= fric;
+			//}
+			//g.lineStyle( 1, 0xeeeeee )//(r-d)/r*20, 0x0 );
+			c.beginPath();
+			c.strokeWidth = m + 1; //(r-d)/r*20, 0x0 );
+			c.moveTo( o.x, o.y );
+			c.lineTo( b.x, b.y );
+			c.stroke();
+		}
+	}
+
+	//g.lineStyle( 0.5, 0x93E2EE );
+	//bmpD.draw( bmpEraser );
+	for (i = 0; i < bs; i++ ) {
+		b = v[i];
+		if ( i == 11110 ) {
+			b.x = 250;// mouseX;
+			b.y = 250;// mouseY;
+
+		} else {
+
+			if ( b.x < 0 ) b.x += sw;
+			if ( b.x > sw ) b.x -= sw;
+
+			if ( b.y < 0 ) b.y += sh;
+			if ( b.y > sh ) b.y -= sh;
+
+			//var xm = (b.mx - (b.x - b.sx) * it);
+			//var ym = (b.my - (b.y - b.sy) * it);
+			//var xm = (b.mx - (b.x - mouseX) * it);
+			//var ym = (b.my - (b.y - mouseY) * it);
+
+			b.x += b.mx;
+			b.y += b.my;
+
+			// var xm = (b.mx - (b.x - b.sx) * it);
+			// var ym = (b.my - (b.y - b.sy) * it);
+
+			// b.x += xm;
+			// b.y += ym;
+
+		}
+
+	}
+
+	//bmpD.draw( bmpEraser );
+	//bmpD.fillRect( bmpD.rect, 0x000033 );
+	//bmpD.draw( grid );
+}
+
+
+</script>
