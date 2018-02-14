@@ -8,123 +8,74 @@ a.height = innerHeight;
 
 con = console;
 
-var bs = 4;// 22; // no of objects
+sw = innerWidth;
+sh = innerHeight;
+bs = 250; // no of objects
+fric = 0.97;
+v = [];
 
-var r;// range of mouse detection
-var s = 0.01; // speed
-var it = 1 / 20; // position calculation iterations
+r = (min, max) => min + Math.random() * (max - min);
+abs = (i) => Math.abs(i)
 
-var fric = 0.995;
-
-var dx;
-var dy;
-var angle;
-var d;
-var m;
-
-var ux;
-var uy;
-
-var i;
-var j;
-
-var v = [];
-
-var sw = innerWidth;
-var sh = innerHeight;
-
-for (i = 0; i < bs; i++ ) { // create grid of objects
-	x = Math.random() * 400
-	y = Math.random() * 400
-	b = {
-		mx: 1,
-		my: 1,
-		r: 0.001,//Math.random() * 20 + 10,
-		x,
-		y,
-		sx: x, sy: y,
+for (i = 0; i++ < bs;) {
+	coin = ~~r(3,6)
+	v[i] = {
+		mx: r(-.5,.5),
+		my: r(-.5,.5),
+		mmx: 0,
+		mmy: 0,
+		r: coin ** 2,
+		x: r(0, sw),
+		y: r(0, sh / 2),
+		colour: [,,,"#90a","#f32","#138"][coin]
 	};
-	v[i] = b ;
 }
 
-calculateCategory();
-
-
-function calculateCategory( e ) {
-	requestAnimationFrame(calculateCategory);
+render = () => {
+	requestAnimationFrame(render);
 	c.clearRect(0,0,sw,sh)
-	for (i = 0; i < bs; i++ ) {
-		b = v[i];
-		// con.log(b)
-		for (j = i + 1; j < bs; j++ ) {
-			o = v[j];
+	v.map((b,i)=>{
+	  	v.slice(i).map((o,j)=>{
+	  //for(j=i+1;j++<bs;){o=v[j] // for loop is 2 chrs more than slice&map
 			dx = b.x - o.x;
 			dy = b.y - o.y;
-			d = Math.sqrt( dx * dx + dy * dy ) + 0.00001;
+			d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
 			r = b.r + o.r;
-			//if (d && d < r) {
-			m = ( s * r / d ) * 40;
-			ux = m * dx / d;
-			uy = m * dy / d;
-			//b.m -= m / b.r;
-			b.mx -= ux / b.r;
-			b.my -= uy / b.r;
-			//o.m += m / o.r;
-			o.mx += ux / o.r;
-			o.my += uy / o.r;
-			//} else {
-				//b.mx *= fric;
-				//b.my *= fric;
-				//o.mx *= fric;
-				//o.my *= fric;
-			//}
-			//g.lineStyle( 1, 0xeeeeee )//(r-d)/r*20, 0x0 );
-			c.beginPath();
-			c.strokeWidth = m + 1; //(r-d)/r*20, 0x0 );
-			c.moveTo( o.x, o.y );
-			c.lineTo( b.x, b.y );
-			c.stroke();
-		}
-	}
+			if (d < r) { // bounce time
+				m = r / d * 10;
+				ux = m * dx / d;
+				uy = m * dy / d;
 
-	//g.lineStyle( 0.5, 0x93E2EE );
-	//bmpD.draw( bmpEraser );
-	for (i = 0; i < bs; i++ ) {
-		b = v[i];
-		if ( i == 11110 ) {
-			b.x = 250;// mouseX;
-			b.y = 250;// mouseY;
+				b.mx += ux / b.r;
+				b.my += uy / b.r;
 
-		} else {
+				o.mx -= ux / o.r;
+				o.my -= uy / o.r;
+			}
 
-			if ( b.x < 0 ) b.x += sw;
-			if ( b.x > sw ) b.x -= sw;
+		});
 
-			if ( b.y < 0 ) b.y += sh;
-			if ( b.y > sh ) b.y -= sh;
+		b.mx *= fric;
+		b.my += .09; // gravity
+		b.my *= fric;
 
-			//var xm = (b.mx - (b.x - b.sx) * it);
-			//var ym = (b.my - (b.y - b.sy) * it);
-			//var xm = (b.mx - (b.x - mouseX) * it);
-			//var ym = (b.my - (b.y - mouseY) * it);
+		c.fillStyle = b.colour;
+		c.beginPath();
+		c.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
+		c.fill();
+	});
 
-			b.x += b.mx;
-			b.y += b.my;
+	v.map(b => {
+		if ( b.x < b.r ) b.mx = abs(b.mx);
+		if ( b.x > sw - b.r ) b.mx = -abs(b.mx);
+		if ( b.y > sh - b.r ) b.my = -abs(b.my); // bouncey coins
+		b.mmx -= (b.mmx - b.mx) * .7;
+		b.mmy -= (b.mmy - b.my) * .7;
+		b.x += b.mmx;
+		b.y += b.mmy;
+	});
 
-			// var xm = (b.mx - (b.x - b.sx) * it);
-			// var ym = (b.my - (b.y - b.sy) * it);
-
-			// b.x += xm;
-			// b.y += ym;
-
-		}
-
-	}
-
-	//bmpD.draw( bmpEraser );
-	//bmpD.fillRect( bmpD.rect, 0x000033 );
-	//bmpD.draw( grid );
 }
-
+render();
 
 </script>
