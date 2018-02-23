@@ -10,36 +10,48 @@ con = console;
 
 sw = innerWidth;
 sh = innerHeight;
-bs = 250; // no of objects
-fric = 0.97;
+objs = 250; // no of objects
+fric = .99;
 v = [];
 
 r = (min, max) => min + Math.random() * (max - min);
-abs = (i) => Math.abs(i)
+abs = i => Math.abs(i)
 
-for (i = 0; i++ < bs;) {
+for (i = 0; i++ < objs;) {
 	coin = ~~r(3,6)
+	f = .5
 	v[i] = {
-		mx: r(-.5,.5),
-		my: r(-.5,.5),
+		mx: r(-f,f),
+		my: r(-f,f),
 		mmx: 0,
 		mmy: 0,
 		r: coin ** 2,
 		x: r(0, sw),
 		y: r(0, sh / 2),
-		colour: [,,,"#90a","#f32","#138"][coin]
+		colour: ["#90a","#f32","#138"][coin-3]
 	};
 }
 
-render = () => {
+render = t => {
 	requestAnimationFrame(render);
 	c.clearRect(0,0,sw,sh)
+
+	p = {x: t * 0.1 % sw, y: sh - 60, r: 40};
+
+	distance = (b,o) => {
+		dx = b.x - o.x;
+		dy = b.y - o.y;
+		d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
+		return {dx,dy,d}
+	}
+
 	v.map((b,i)=>{
+		if (distance(b, p).d < p.r) {
+			// con.log("kill")
+		}
 	  	v.slice(i).map((o,j)=>{
-	  //for(j=i+1;j++<bs;){o=v[j] // for loop is 2 chrs more than slice&map
-			dx = b.x - o.x;
-			dy = b.y - o.y;
-			d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
+	  //for(j=i+1;j++<objs;){o=v[j] // for loop is 2 chrs more than slice&map
+	  		var {dx,dy,d} = distance(b, o);
 			r = b.r + o.r;
 			if (d < r) { // bounce time
 				m = r / d * 10;
@@ -56,7 +68,7 @@ render = () => {
 		});
 
 		b.mx *= fric;
-		b.my += .09; // gravity
+		b.my += .1; // gravity
 		b.my *= fric;
 
 		c.fillStyle = b.colour;
@@ -74,6 +86,14 @@ render = () => {
 		b.x += b.mmx;
 		b.y += b.mmy;
 	});
+
+
+
+	c.fillStyle = "yellow";
+	c.beginPath();
+	c.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+	c.fill();
+
 
 }
 render();
