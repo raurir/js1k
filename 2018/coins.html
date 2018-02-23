@@ -14,29 +14,44 @@ objs = 250; // no of objects
 fric = .99;
 v = [];
 
-r = (min, max) => min + Math.random() * (max - min);
+ran = (min, max) => min + Math.random() * (max - min);
 abs = i => Math.abs(i)
 
-for (i = 0; i++ < objs;) {
-	coin = ~~r(3,6)
+create = _ => {
+	coin = ~~ran(3,6)
 	f = .5
-	v[i] = {
-		mx: r(-f,f),
-		my: r(-f,f),
+	v.push({
+		mx: ran(-f,f),
+		my: ran(-f,f),
 		mmx: 0,
 		mmy: 0,
 		r: coin ** 2,
-		x: r(0, sw),
-		y: r(0, sh / 2),
+		x: ran(0, sw),
+		y: ran(0, sh / 2),
 		colour: ["#90a","#f32","#138"][coin-3]
-	};
+	})
 }
+
+for (i = 0; i++ < objs;) {
+	create()
+}
+
+p = {x: -100, y: sh - 60, r: 40}; //pacman
 
 render = t => {
 	requestAnimationFrame(render);
 	c.clearRect(0,0,sw,sh)
 
-	p = {x: t * 0.1 % sw, y: sh - 60, r: 40};
+	if (v.length < objs && ran(0,1) > .9) create();
+
+	con.log(v.length)
+	p.x += 5;
+	if (p.x > sw + p.r) {
+		p.r = ran(3,15) ** 2
+		p.y = sh - p.r
+		p.x = -p.r
+	}
+
 
 	distance = (b,o) => {
 		dx = b.x - o.x;
@@ -45,10 +60,7 @@ render = t => {
 		return {dx,dy,d}
 	}
 
-	v.map((b,i)=>{
-		if (distance(b, p).d < p.r) {
-			// con.log("kill")
-		}
+	v = v.filter((b,i)=>{
 	  	v.slice(i).map((o,j)=>{
 	  //for(j=i+1;j++<objs;){o=v[j] // for loop is 2 chrs more than slice&map
 	  		var {dx,dy,d} = distance(b, o);
@@ -75,6 +87,7 @@ render = t => {
 		c.beginPath();
 		c.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
 		c.fill();
+		return !(distance(b, p).d < b.r + p.r);
 	});
 
 	v.map(b => {
@@ -87,11 +100,12 @@ render = t => {
 		b.y += b.mmy;
 	});
 
-
+	ang = Math.sin(t*.01)
 
 	c.fillStyle = "yellow";
 	c.beginPath();
-	c.arc(p.x, p.y, p.r, 0, Math.PI * 2, false);
+	c.arc(p.x, p.y, p.r, ang, Math.PI * 2 - ang, false);
+	c.lineTo(p.x, p.y)
 	c.fill();
 
 
