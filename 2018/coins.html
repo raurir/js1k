@@ -10,71 +10,68 @@ con = console;
 
 sw = innerWidth;
 sh = innerHeight;
-objs = 250; // no of objects
-fric = .99;
+f = .5 // just a half
+J = 250; // no of objects
+F = .99; // friction
 v = [];
+u = Math.PI*2
 
-ran = (min, max) => min + Math.random() * (max - min);
-abs = i => Math.abs(i)
+R = (min, max) => min + Math.random() * (max - min);
+s = i => Math.abs(i)
 
-create = _ => {
-	coin = ~~ran(3,6)
-	f = .5
+C = _ => { // create coin
+	O = ~~R(3,6) // coin size
 	v.push({
-		mx: ran(-f,f),
-		my: ran(-f,f),
+		mx: R(-f,f),
+		my: R(-f,f),
 		mmx: 0,
 		mmy: 0,
-		r: coin ** 2,
-		x: ran(0, sw),
-		y: ran(0, -sh),
+		r: O ** 2,
+		x: R(0, sw),
+		y: R(0, -sh),
 		colour: [
-		"#A8A8A8",
-		// "#CCC2C2",
-		"#C98910",
-		"#D9A441",
-		][coin-3]
+		"#aaa",
+		"#c81",
+		"#da4",
+		][O-3]
 	})
 }
 
-for(i=0;i++<objs;)create()
+for(i=0;i++<J;)C()
 
-pacman = _ => {
-	rr = ran(3,15) ** 2
+n = _ => { // pacman
+	rr = R(3,15) ** 2
 	p = {
 		r: rr,
 		y: sh - rr,
 		x: -rr
 	}
 }
-pacman()
+n()
 
-distance = (b,o) => {
-	dx = b.x - o.x;
-	dy = b.y - o.y;
-	d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
+h = (a,b) => { // distance
+	dx = a.x - b.x;
+	dy = a.y - b.y;
+	d = Math.hypot(dx,dy) + 1/1e5;
 	return {dx,dy,d}
 }
 
 
 
-render = t => {
-	requestAnimationFrame(render);
+e = t => { // render
+	requestAnimationFrame(e);
 	c.fillStyle = "#000"
 	c.fillRect(0,0,sw,sh)
 
-	v.length < objs && ran(0,1) > .8 && create();
-	(p.x += 5) > sw + p.r && pacman()
-
-	con.log(v.length)
+	v.length < J && R(0,1) > .8 && C();
+	(p.x += 5) > sw + p.r && n()
 
 	v = v.filter((b,i)=>{
 	  	v.slice(i).map(o=>{
-	  //for(j=i+1;j++<objs;){o=v[j] // for loop is 2 chrs more than slice&map
-	  		var {dx,dy,d} = distance(b, o);
+	  		var {dx,dy,d} = h(b, o);
 			r = b.r + o.r;
-			if (d < r) { // bounce time
-				m = r / d * 10;
+			if (d < r) { // ok, let's bounce
+				m = r / d * 9;
 				ux = m * dx / d;
 				uy = m * dy / d;
 
@@ -87,13 +84,13 @@ render = t => {
 
 		});
 
-		b.mx *= fric;
+		b.mx *= F;
 		b.my += .1; // gravity
-		b.my *= fric;
+		b.my *= F;
 
 		c.fillStyle = b.colour;
 		c.beginPath();
-		c.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
+		c.arc(b.x, b.y, b.r, 0, u, 0);
 		c.fill();
 
 		c.font=`${b.r}px Verdana`;
@@ -101,30 +98,28 @@ render = t => {
 		z=b.r/4;
 		c.fillText("$", b.x-z, b.y+z);
 
-
-		return !(distance(b, p).d < b.r + p.r); // pacman eats
+		return !(h(b, p).d < b.r + p.r); // decide if it's eaten by pacman
 	});
 
 	v.map(b => {
-		if ( b.x < b.r ) b.mx = abs(b.mx);
-		if ( b.x > sw - b.r ) b.mx = -abs(b.mx);
-		if ( b.y > sh - b.r ) b.my = -abs(b.my); // bouncey coins
-		b.mmx -= (b.mmx - b.mx) * .7;
-		b.mmy -= (b.mmy - b.my) * .7;
+		if ( b.x < b.r ) b.mx = s(b.mx);
+		if ( b.x > sw - b.r ) b.mx = -s(b.mx);
+		if ( b.y > sh - b.r ) b.my = -s(b.my); // bouncey Os
+		b.mmx -= (b.mmx - b.mx) * f;
+		b.mmy -= (b.mmy - b.my) * f;
 		b.x += b.mmx;
 		b.y += b.mmy;
 	});
 
-	ang = Math.sin(t*.01)
-
+	// draw mouth
+	ang = Math.sin(t/99)
 	c.fillStyle = "#ff0";
 	c.beginPath();
-	c.arc(p.x, p.y, p.r, ang, Math.PI * 2 - ang, false);
-	c.lineTo(p.x, p.y)
+	c.arc(p.x, p.y, p.r, ang, u - ang, 0);
+	c.lineTo(p.x, p.y) // draw mouth
 	c.fill();
 
-
 }
-render();
+e();
 
 </script>
