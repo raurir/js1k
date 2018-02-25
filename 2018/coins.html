@@ -27,41 +27,49 @@ create = _ => {
 		mmy: 0,
 		r: coin ** 2,
 		x: ran(0, sw),
-		y: ran(0, sh / 2),
-		colour: ["#90a","#f32","#138"][coin-3]
+		y: ran(0, -sh),
+		colour: [
+		"#A8A8A8",
+		// "#CCC2C2",
+		"#C98910",
+		"#D9A441",
+		][coin-3]
 	})
 }
 
-for (i = 0; i++ < objs;) {
-	create()
+for(i=0;i++<objs;)create()
+
+pacman = _ => {
+	rr = ran(3,15) ** 2
+	p = {
+		r: rr,
+		y: sh - rr,
+		x: -rr
+	}
+}
+pacman()
+
+distance = (b,o) => {
+	dx = b.x - o.x;
+	dy = b.y - o.y;
+	d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
+	return {dx,dy,d}
 }
 
-p = {x: -100, y: sh - 60, r: 40}; //pacman
+
 
 render = t => {
 	requestAnimationFrame(render);
-	c.clearRect(0,0,sw,sh)
+	c.fillStyle = "#000"
+	c.fillRect(0,0,sw,sh)
 
-	if (v.length < objs && ran(0,1) > .9) create();
+	v.length < objs && ran(0,1) > .8 && create();
+	(p.x += 5) > sw + p.r && pacman()
 
 	con.log(v.length)
-	p.x += 5;
-	if (p.x > sw + p.r) {
-		p.r = ran(3,15) ** 2
-		p.y = sh - p.r
-		p.x = -p.r
-	}
-
-
-	distance = (b,o) => {
-		dx = b.x - o.x;
-		dy = b.y - o.y;
-		d = Math.sqrt( dx * dx + dy * dy ) + 1/1e5;
-		return {dx,dy,d}
-	}
 
 	v = v.filter((b,i)=>{
-	  	v.slice(i).map((o,j)=>{
+	  	v.slice(i).map(o=>{
 	  //for(j=i+1;j++<objs;){o=v[j] // for loop is 2 chrs more than slice&map
 	  		var {dx,dy,d} = distance(b, o);
 			r = b.r + o.r;
@@ -87,7 +95,14 @@ render = t => {
 		c.beginPath();
 		c.arc(b.x, b.y, b.r, 0, Math.PI * 2, false);
 		c.fill();
-		return !(distance(b, p).d < b.r + p.r);
+
+		c.font=`${b.r}px Verdana`;
+		c.fillStyle = "#000";
+		z=b.r/4;
+		c.fillText("$", b.x-z, b.y+z);
+
+
+		return !(distance(b, p).d < b.r + p.r); // pacman eats
 	});
 
 	v.map(b => {
@@ -102,7 +117,7 @@ render = t => {
 
 	ang = Math.sin(t*.01)
 
-	c.fillStyle = "yellow";
+	c.fillStyle = "#ff0";
 	c.beginPath();
 	c.arc(p.x, p.y, p.r, ang, Math.PI * 2 - ang, false);
 	c.lineTo(p.x, p.y)
