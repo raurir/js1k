@@ -8,16 +8,16 @@ a.height = innerHeight;
 
 con = console;
 
-sw = innerWidth;
-sh = innerHeight;
-f = .5; // just a half
-J = 250; // no of objects
-F = .99; // friction
-v = [];
-u = Math.PI*2;
+var sw = innerWidth,
+sh = innerHeight,
+f = .5, // just a half
+J = 250, // no of objects
+F = .99, // friction
+v = [],
+u = Math.PI*2,
 
-R = (min, max) => min + Math.random() * (max - min);
-s = i => Math.abs(i);
+R = (min, max) => min + Math.random() * (max - min),
+s = i => Math.abs(i),
 
 C = _ => { // create coin
 	O = ~~R(3,6) // coin size
@@ -35,28 +35,22 @@ C = _ => { // create coin
 		"#da4",
 		][O-3]
 	})
-};
-
-for(i=0;i++<J;)C();
+},
 
 n = _ => { // pacman
-	rr = R(3,15) ** 2
+	rr = R(5,15) ** 2
 	p = {
 		r: rr,
 		y: sh - rr,
 		x: -rr
 	}
-}
-n();
+},
 
 h = (a,b) => { // distance
 	dx = a.x - b.x;
 	dy = a.y - b.y;
 	d = Math.hypot(dx,dy) + 1/1e5;
-	return {dx,dy,d}
-};
-
-
+},
 
 e = t => { // render
 	requestAnimationFrame(e);
@@ -64,14 +58,14 @@ e = t => { // render
 	c.fillRect(0,0,sw,sh);
 
 	v.length < J && R(0,1) > .8 && C();
-	(p.x += 5) > sw + p.r && n();
+	(p.x += 280/p.r) > sw + p.r && n();
 
 	v = v.filter((b,i)=>{
 	  	v.slice(i).map(o=>{
-	  		var {dx,dy,d} = h(b, o);
+	  		h(b, o);
 			r = b.r + o.r;
 			if (d < r) { // ok, let's bounce
-				m = r / d * 9;
+				m = r / d * 5;
 				ux = m * dx / d;
 				uy = m * dy / d;
 
@@ -98,7 +92,8 @@ e = t => { // render
 		z=b.r/4;
 		c.fillText("$", b.x-z, b.y+z);
 
-		return !(h(b, p).d < b.r + p.r); // decide if it's eaten by pacman
+		h(b, p)
+		return !(d < b.r + p.r); // decide if it's eaten by pacman
 	});
 
 	v.map(b => {
@@ -112,7 +107,7 @@ e = t => { // render
 	});
 
 	// draw mouth
-	ang = Math.sin(t/99);
+	ang = Math.sin(t/p.r/3);
 	c.fillStyle = "#ff0";
 	c.beginPath();
 	c.arc(p.x, p.y, p.r, ang, u - ang, 0);
@@ -120,6 +115,9 @@ e = t => { // render
 	c.fill();
 
 }
+
+for(i=0;i++<J;)C();
+n();
 e();
 
 </script>
