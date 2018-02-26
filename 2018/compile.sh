@@ -1,0 +1,1 @@
+node node_modules/uglify-es/bin/uglifyjs --compress --mangle --mangle-props --output coin-compressed.js -- coin.js
