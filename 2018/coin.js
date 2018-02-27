@@ -43,7 +43,7 @@ e = t => { // render
 	(p.x += p.s) > innerWidth + p.r && R(0,1) > .99 && n();
 	B("#ff0");
 	c.beginPath();
-	c.arc(p.x, p.y, p.r, Math.sin(t/p.r/3), Math.PI*2 - Math.sin(t/p.r/3), 0);
+	c.arc(p.x, p.y, p.r, Math.abs(Math.sin(t/p.r/3)), Math.PI*2 -Math.abs(Math.sin(t/p.r/3)), 0);
 	c.lineTo(p.x, p.y); // draw mouth
 	c.fill();
 
@@ -118,7 +118,7 @@ e = t => { // render
 	// print crytop price
 	c.font=`30px Arial`;
 	B("#fff");
-	c.fillText(`$${ v.length ** 2 }`, innerWidth / 2, 40);
+	c.fillText(`$${ v.length ** 2 + ~~R(1,9) }.${ ~~R(1,9) }${ ~~R(1,9) }`, innerWidth / 2, 40);
 
 
 }
