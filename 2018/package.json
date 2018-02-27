@@ -1,0 +1,16 @@
+{
+  "name": "js1k 2018",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "dependencies": {},
+  "devDependencies": {
+    "regpack": "^5.0.1",
+    "uglify-es": "^3.3.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "raurir",
+  "license": "ISC"
+}
