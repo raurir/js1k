@@ -1,12 +1,3 @@
-// 99% done by @rauri rochford
-// http://js1k.com/2012-love/demo/1071
-
-// i just rAF'd it.
-
-
-// demo at http://bl.ocks.org/1823634
-
-
 e = [];// trails
 h = [];// heart path
 O = c.width = innerWidth;
@@ -16,40 +7,13 @@ v = 32; // num trails, num particles per trail & num nodes in heart path
 M = Math;
 R = M.random;
 C = M.cos;
-Y = 6.3;// close to 44/7 or Math.PI * 2 - 6.3 seems is close enough.
-radius = 200;
-radiusIntersection = radius * 0.5
-
-for( i = 0; i < 5; i++) {
-	// calculate pentagram outer points
-	angle0 = i * 2 / 5 * Math.PI * 2;
-	angle1 = (i + 1) * 2 / 5 * Math.PI * 2;
-
-	x0 = O/2 + M.sin(angle0) * radius
-	y0 = Q/2 + M.cos(angle0) * radius
-
-	x1 = O/2 + M.sin(angle1) * radius
-	y1 = Q/2 + M.cos(angle1) * radius
-
-	hx = x0 + (x1 - x0) / 2
-	hy = y0 + (y1 - y0) / 2
-
-	h.push([x0, y0])
-
-	h.push([hx, hy])
-
-}
-availablePoints = h.length
-for(i = availablePoints ; i < v; i++) { // calculate pentagram points
-	radius = 200;
-	angle = i / availablePoints * Math.PI * 2;
+Y = 6.3;// close to 44/7 or Math.PI * 2 - 6.3 seems is close enough. 
+for( i = 0; i <Y; i+= .2 ) { // calculate heart nodes, from http://mathworld.wolfram.com/HeartCurve.html
 	h.push([
-		O/2 + M.sin(angle) * radius,
-		Q/2 + M.cos(angle) * radius
+		O/2 + 180*M.pow(M.sin(i), 3),
+		Q/2 + 10 * (-(15*C(i) - 5*C(2*i) - 2*C(3*i) - C(4*i)))
 	])
 }
-
-
 
 i = 0;
 while (i < v ) {
@@ -74,13 +38,13 @@ while (i < v ) {
 			X : 0, // velocity
 			Y : 0,
 			R : (1 - k/v)  + 1, // radius
-			S : (R() + 1) * 0.6, // acceleration 
+			S : R() + 1, // acceleration 
 			q : ~~(R() * v), // target node on heart path
 			//D : R()>.5?1:-1,
 			D : i%2*2-1, // direction around heart path
 			F : R() * .2 + .7, // friction
 			//f : "rgba(" + ~~r + "," + ~~g + "," + ~~b + ",.1)"
-			f : "red" // colour
+			f : "hsla("+~~H+","+~~S+"%,"+~~B+"%,.1)" // colour
 		}
 	}
 
@@ -95,16 +59,10 @@ function render(_) { // draw particle
 	a.fill();
 }
 
-function loop(){
+setInterval(function(){
 
 	a.fillStyle = "rgba(0,0,0,.2)"; // clear screen
 	a.fillRect(0,0,O,Q);
-
-	// for (var i = 0; i < v; i++) {
-	// 	a.fillStyle = "red"; // clear screen
-	// 	// a.fillRect(h[i][0], h[i][1], 2, 2);
-	// 	a.fillText(i, h[i][0], h[i][1])
-	// }
 
 	i = v;
 	while (i--) {
@@ -152,9 +110,5 @@ function loop(){
 		}
 
 	}
-}; // eo loop()
-
-(function doit(){
-	requestAnimationFrame(doit);
-	loop();
-}());
+}
+, 25);
