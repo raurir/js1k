@@ -21,7 +21,7 @@ C = _ => { // create coin
 n = _ => { // pacman
 	r = R(5,Math.sqrt(innerHeight / 3)) ** 2
 	p = {
-		s: 280 / r * R(1,2),
+		s: 320 / r * R(1,2),
 		r,
 		y: innerHeight - r,
 		x: -r//-R(0,innerWidth)

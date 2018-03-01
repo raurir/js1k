@@ -1,4 +1,15 @@
-2018 - ...
+2018 - The Volatile Coin Mine
+=============================
+
+CryptoMonster
+-------------
+
+Investors are throwing their money into the volatile market, beware the trawling CryptoMonster
+
+[Code](/2018/)
+
+[Demo](https://js1k.com/2018-coins/demo/3187)
+
 
 2017 - Magic
 ============
@@ -19,7 +30,7 @@ The Godess Thriai
 Evolution of Hype
 -----------------
 
-- joint with [Rebecca](https://github.com/veu) ([monometric](https://monometric.net/))
+### joint with [Rebecca](https://github.com/veu) ([monometric](https://monometric.net/))
 
 An interactive simulation of hype.
 

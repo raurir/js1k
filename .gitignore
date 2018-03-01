@@ -1,4 +1,5 @@
 *-compressed.js
+*-regpacked.js
 .DS_Store
 Gruntfile.coffee
 magic-compress*.*
